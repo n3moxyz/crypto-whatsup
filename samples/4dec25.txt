@@ -1,0 +1,39 @@
+Liquid update (4 Dec) #macro
+
+Just quick notes for the weekend.
+
+The market is showing signs of life.
+• Monday saw BTC at $83.5k and ETH at $2.7k – basically resetting prev lows from 21 Nov.
+• Coin on the edge of dubious 27 bounces and calling it so its highest level since ETH flows GFC to ~7B
+• This is a big deal because many people borrow Mi Per cheap; of poor (shortables)look into est at super low interest rates
+• Then nation deciding to do follow previous ration by China came out as big blow to anyone trying to short
+• Affects all borrowers and unwinding of other risk assets (e.g. borrow JPY, convert to USD, buy US stocks -- now they have to unwind that, i.e. sell to repay the JPY loan)
+• Meme-wise: The Fed, ECB, and Bay of England almost saled on Jul, Japan was the last major central bank still at near zero. When yen Japan turns the tap off, there is no more cheap money left globally -- everything that was inflated previously (stocks, real estate, etc.) may get repriced lower.
+
+However, midweek we saw a sharp rebound across crypto markets:
+• BTC: jumped ~11% from Monday's low and is now back above $91k.
+• This is significant because:
+  1) ETH bounce since 10/10 that didn't get sold hardly into (most other bounces died and retraced after few days, still early to say but looks good at the time of writing)
+  2) ETH the strongest mover him (watch showing its hand on choice of asset if we're back + successful Fusaka upgrade + @Sima_CCN's ethvol stuff)
+  3) ETH/BTC: Marked recent form (long 0.0320 crossunders are fairly 1H in my major)
+  4) Alts moved alongside majors which didn't happen before (DeFi up good, memes up good)
+
+Just one of these representations:
+1) Deleveraging
+  - Such wholesale move could mean sellers have run out of coins.
+2) OR -- it could just be because liquidity is so thin that the market simply moves from a decentity-sized buyer mistakingly in his ape BTC (see BTC 4h candle circled in chart below)
+
+I still continue to believe this is another one of those failed bounces. We've had too many bounces since 10/10 that got sold into (because ppl want to exit their bags).
+• The prudent thing to do is wait and see, instead of guessing and delicying risk.
+• Upd: lift in this chase and others saying will begin of hedge correct, than spr mpr now with lower probability of being correct.
+
+What's important is to be ready when the market comes back. Prepare what to bid before it's time to bid.
+
+I have identified 5 buckets for this -- ranked in order of priority and our likelihood of executing:
+1. Majors - seizing the right price to be on is bit, is it ETH or BTC? should about "alt or alt" mister for risk allocation
+2. OG Names that have been around for multi cycles and have a chance to catch a bid because product, tech is top tier and they continue to build tremendously (e.g. ZRO, UNI, AAVE)
+3. Names that have consistently outperformed market market's good + typically still ok in calm (few assets do e.g. ENA, HYPE, PUMP, XRP, PENGU)
+4. Very new tickers that may catch attention ("newcomer premium) when market has recognition (e.g. MOG, GOAT, MEGATHE -- more opportunity / catalyst driven
+5. Memes with upward (PENGU, PPATTON, PEPE, SPX... less likely for us to execute but worth tracking, same as above)
+
+* This is My frame of thinking going into 2026 and watchlist for now. If anyone wants to pitch a new category or a ticker that falls into existing buckets, please do so!
