@@ -5,10 +5,13 @@ export interface GrokCryptoIntel {
   breakingNews: string[];
   sentiment: string;
   keyTweets: string[];
+  searchTimestamp: string;
 }
 
 export async function fetchCryptoIntelFromGrok(): Promise<GrokCryptoIntel> {
   const apiKey = process.env.XAI_API_KEY;
+  const now = new Date();
+  const searchTimestamp = now.toISOString();
 
   if (!apiKey) {
     console.log("XAI_API_KEY not configured, skipping Grok intelligence");
@@ -17,37 +20,53 @@ export async function fetchCryptoIntelFromGrok(): Promise<GrokCryptoIntel> {
       breakingNews: [],
       sentiment: "",
       keyTweets: [],
+      searchTimestamp,
     };
   }
 
-  const systemPrompt = `You are a crypto market intelligence analyst with real-time access to X (Twitter). Your job is to surface the most important crypto narratives, breaking news, and sentiment from the past 24-48 hours.
+  const currentDate = now.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC'
+  });
+  const currentTime = now.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'UTC'
+  });
 
-Focus on:
-1. BREAKING NEWS: Hacks, exploits, regulatory actions, major announcements, exchange issues
-2. WHALE MOVEMENTS: Large transfers, wallet tracking alerts, smart money moves
-3. NARRATIVE SHIFTS: What tokens/sectors are gaining mindshare (AI, DePIN, memes, L2s, etc.)
-4. INFLUENCER TAKES: Key opinions from major crypto accounts that are moving markets
-5. LIQUIDATION CASCADES: Major liquidation events, funding rate extremes
-6. ON-CHAIN DATA: Notable on-chain metrics being discussed (TVL changes, active addresses, etc.)
+  const systemPrompt = `You are a crypto market intelligence analyst with real-time access to X (Twitter).
 
-Be specific with numbers, names, and details. Don't be generic.`;
+CRITICAL RULES:
+1. TODAY'S DATE IS: ${currentDate}, ${currentTime} UTC
+2. ONLY report information you can VERIFY from actual X posts in the last 24-48 hours
+3. NEVER make up statistics, prices, ratios, or percentages
+4. NEVER reference events that happened before 48 hours ago as if they're current
+5. If you cannot find specific information, say "No significant news found" - DO NOT HALLUCINATE
+6. Only mention specific tokens/sectors if there are ACTUAL tweets discussing notable price moves or news about them
+7. Do not mention past events (like "December rate cut") as future probabilities`;
 
-  const userPrompt = `Search X/Twitter for the most important crypto market developments in the last 24-48 hours. I need:
+  const userPrompt = `CURRENT DATE/TIME: ${currentDate}, ${currentTime} UTC
 
-1. BREAKING NEWS (2-3 items): Major events that moved markets or could move markets
-2. DOMINANT NARRATIVES (2-3 items): What sectors/tokens are people talking about most and why
-3. KEY ALPHA (2-3 items): Whale moves, smart money positioning, notable on-chain activity
-4. OVERALL SENTIMENT: One sentence summary of crypto Twitter mood
+Search X/Twitter for VERIFIED crypto market developments from the LAST 24-48 HOURS ONLY (from ${getDateDaysAgo(2)} to ${getTodayDate()}).
+
+STRICT REQUIREMENTS:
+- Only include information you can verify from actual recent posts
+- If you find no significant news for a category, return an empty array for that category
+- Do not speculate or assume - only report what's actually being discussed
+- Include the approximate time/date if known (e.g., "yesterday", "12 hours ago")
 
 Return as JSON:
 {
-  "breakingNews": ["specific news item with details..."],
-  "narratives": ["narrative with specific tokens/projects mentioned..."],
-  "keyTweets": ["paraphrased key insights from notable accounts..."],
-  "sentiment": "one sentence mood summary"
+  "breakingNews": ["verified news with source context if possible..."] or [],
+  "narratives": ["what specific tokens people are discussing with real context..."] or [],
+  "keyTweets": ["actual insights being shared, not made up..."] or [],
+  "sentiment": "brief factual summary of CT mood, or 'mixed/unclear' if no strong signal"
 }
 
-Be sharp and specific. Include ticker symbols, percentages, and dollar amounts where relevant.`;
+REMEMBER: Empty arrays are better than hallucinated information. Accuracy over detail.`;
 
   try {
     const response = await fetch(XAI_API, {
@@ -68,7 +87,7 @@ Be sharp and specific. Include ticker symbols, percentages, and dollar amounts w
           from_date: getDateDaysAgo(2),
           to_date: getTodayDate(),
         },
-        temperature: 0.7,
+        temperature: 0.3,
       }),
     });
 
@@ -99,6 +118,7 @@ Be sharp and specific. Include ticker symbols, percentages, and dollar amounts w
       breakingNews: parsed.breakingNews || [],
       sentiment: parsed.sentiment || "",
       keyTweets: parsed.keyTweets || [],
+      searchTimestamp,
     };
   } catch (error) {
     console.error("Grok fetch error:", error);
@@ -107,6 +127,7 @@ Be sharp and specific. Include ticker symbols, percentages, and dollar amounts w
       breakingNews: [],
       sentiment: "",
       keyTweets: [],
+      searchTimestamp,
     };
   }
 }

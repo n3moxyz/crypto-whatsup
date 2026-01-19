@@ -98,80 +98,98 @@ export async function generateWhatsUp(): Promise<WhatsUpData> {
   else if (avgChange < -2) sentiment = "bearish";
   else sentiment = "neutral";
 
+  // Get current timestamp for accuracy
+  const now = new Date();
+  const currentDate = now.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC'
+  });
+  const currentTime = now.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'UTC'
+  });
+
   // Build Grok intelligence context
   const hasGrokIntel = grokIntel.breakingNews.length > 0 || grokIntel.narratives.length > 0;
 
   let intelContext = '';
   if (hasGrokIntel) {
-    intelContext = '\n\n=== REAL-TIME X/TWITTER INTELLIGENCE (last 24-48h) ===';
+    intelContext = '\n\n=== VERIFIED X/TWITTER INTELLIGENCE (last 24-48h) ===';
 
     if (grokIntel.breakingNews.length > 0) {
       intelContext += `\n\nBREAKING NEWS:\n${grokIntel.breakingNews.map(n => `• ${n}`).join('\n')}`;
     }
 
     if (grokIntel.narratives.length > 0) {
-      intelContext += `\n\nDOMINANT NARRATIVES:\n${grokIntel.narratives.map(n => `• ${n}`).join('\n')}`;
+      intelContext += `\n\nNARRATIVES BEING DISCUSSED:\n${grokIntel.narratives.map(n => `• ${n}`).join('\n')}`;
     }
 
     if (grokIntel.keyTweets.length > 0) {
-      intelContext += `\n\nKEY ALPHA FROM CT:\n${grokIntel.keyTweets.map(t => `• ${t}`).join('\n')}`;
+      intelContext += `\n\nKEY INSIGHTS FROM CT:\n${grokIntel.keyTweets.map(t => `• ${t}`).join('\n')}`;
     }
 
     if (grokIntel.sentiment) {
-      intelContext += `\n\nCT MOOD: ${grokIntel.sentiment}`;
+      intelContext += `\n\nCT SENTIMENT: ${grokIntel.sentiment}`;
     }
   }
 
-  const systemPrompt = `You are a sharp crypto market analyst known for cutting through noise and delivering unique, actionable insights. You write for sophisticated traders who want to know WHAT happened, WHY it matters, and WHAT'S NEXT.
+  const systemPrompt = `You are a crypto market analyst. Your #1 priority is ACCURACY. You would rather say less than say something wrong.
 
-Your style:
-- Lead with the most important insight, not generic price recaps
-- Connect dots others miss: on-chain data → narrative shifts → price action
-- Call out specific catalysts with conviction (ETF flows, whale wallets, protocol events)
-- Be contrarian when warranted - don't just echo consensus
-- Include specific numbers: "$420M liquidated", "Wallet 0x... moved 10k ETH", "Funding at +0.03%"
+CURRENT DATE/TIME: ${currentDate}, ${currentTime} UTC
+
+CRITICAL RULES - MUST FOLLOW:
+1. ONLY use information from the provided price data and X/Twitter intelligence
+2. NEVER make up statistics, ratios, percentages, or specific numbers not in the data
+3. NEVER reference past events as if they're upcoming (e.g., if it's January, don't say "December rate cut is probable")
+4. If you don't have information about something, DON'T MENTION IT - skip that topic entirely
+5. Only mention specific sectors (AI, DePIN, memes, etc.) if there are SPECIFIC TOKENS with notable moves in the data
+6. The price data shows ACTUAL current prices and 24h changes - use these exact numbers
+7. If X/Twitter intel is empty or sparse, focus only on what you can verify from the price data
 
 FORMATTING:
-- BTC: $104k format
-- ETH: $3.2k format
-- SOL: $240 format
-- Percentages in *italics*: *+2.3%*
-- Token mentions in caps: BTC, ETH, SOL, ARB
+- BTC: $104k format (use actual price from data)
+- ETH: $3.2k format (use actual price from data)
+- SOL: $240 format (use actual price from data)
+- Percentages in *italics*: *+2.3%* (use actual % from data)
 
-DON'T:
-- State obvious price movements without explaining why
-- Force macro commentary if crypto is moving on its own
-- Be wishy-washy with "could go up or down"
-- Use generic phrases like "market showing volatility"`;
+ACCURACY > DETAIL. Say less if unsure. Never hallucinate.`;
 
-  const userPrompt = `LIVE PRICE DATA:
+  const userPrompt = `TIMESTAMP: ${currentDate}, ${currentTime} UTC
+
+LIVE PRICE DATA (verified):
 ${priceContext}
 ${intelContext}
 
-Write 5-7 sharp bullet points covering:
+Based ONLY on the data above, write 4-6 bullet points. For each bullet:
+- Only state facts you can verify from the provided data
+- Use the exact prices and percentages from the price data
+- If referencing X/Twitter intel, only include what was actually provided
+- If a category has no relevant data, skip it entirely
 
-1. **THE STORY**: What's the dominant narrative driving crypto right now? What changed in the last 24-48h?
+TOPICS TO COVER (only if you have verified data):
+1. Price action summary - what the actual numbers show
+2. Any breaking news from the X intel (if provided)
+3. Notable movers and why (only if you have context from the intel)
+4. Market sentiment (only if clearly indicated in the data)
 
-2. **CATALYSTS**: Specific events moving prices - ETF flows, whale movements, protocol news, liquidation cascades, funding rates
+DO NOT:
+- Make up ETF flow numbers unless specifically provided
+- Invent whale wallet addresses or movements
+- Reference events from weeks/months ago as current
+- Mention sectors without specific token context
+- Add "key levels" unless you have actual data for them
 
-3. **SECTOR ROTATION**: Which sectors/tokens are gaining mindshare? (AI, memes, L2s, DePIN, etc.) Any notable outperformers or laggards?
+FORMAT: Return ONLY a JSON array of bullet strings.
 
-4. **SMART MONEY**: What are whales/institutions doing? Any notable wallet movements or positioning?
-
-5. **CONTRARIAN TAKE**: One insight that goes against the current consensus or highlights something the market is missing
-
-6. **LEVELS TO WATCH**: Key support/resistance for majors, liquidation clusters
-
-FORMAT: Return ONLY a JSON array of bullet strings. Each bullet should be punchy and insight-dense. Use the formatting rules.
-
-Example output style:
+If the X/Twitter intel is empty, a valid response might be:
 [
-  "BTC grinding toward $105k with *+2.1%* as spot ETFs logged $340M inflows - third consecutive day of accumulation despite macro uncertainty",
-  "ETH underperforming at $3.2k (*-0.8%*) - gas fees spiked 3x on memecoin activity but value isn't flowing to ETH yet",
-  "AI sector rotation accelerating: TAO *+15%*, RNDR *+8%* as Nvidia earnings loom - CT pivoting from memes to 'real utility'",
-  "Whale alert: Jump Trading wallet deposited 15k ETH to Binance - historically precedes volatility, watch for distribution",
-  "Contrarian: Everyone bearish on SOL after memecoin fatigue but Solana DEX volume still 2x Ethereum - market structure stronger than sentiment",
-  "Key levels: BTC $103.5k = CME gap fill, $106.5k = ATH retest. Liquidation cluster at $101k (~$800M longs)"
+  "BTC at $104k (*+1.2%* 24h) - price action steady with no major catalysts in the last 24h",
+  "ETH holding $3.2k (*-0.5%*) - underperforming BTC slightly",
+  "Market sentiment unclear - limited breaking news in the last 48h"
 ]`;
 
   const response = await fetch(ANTHROPIC_API, {
