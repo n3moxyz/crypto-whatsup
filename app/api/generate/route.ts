@@ -4,6 +4,26 @@ import { CoinData } from "@/lib/coingecko";
 import { promises as fs } from "fs";
 import path from "path";
 
+function parseDateFromFilename(filename: string): Date | null {
+  // Match pattern: 15jan26.txt, 5jan26.txt, 4dec25.txt
+  const match = filename.match(/^(\d{1,2})([a-z]{3})(\d{2})\.txt$/i);
+  if (!match) return null;
+
+  const day = parseInt(match[1]);
+  const monthStr = match[2].toLowerCase();
+  const year = 2000 + parseInt(match[3]); // 26 -> 2026
+
+  const months: Record<string, number> = {
+    jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+    jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11
+  };
+
+  const month = months[monthStr];
+  if (month === undefined) return null;
+
+  return new Date(year, month, day);
+}
+
 async function loadSampleReports(): Promise<{ samples: string[]; mostRecent: string }> {
   const samplesDir = path.join(process.cwd(), "samples");
 
@@ -11,12 +31,12 @@ async function loadSampleReports(): Promise<{ samples: string[]; mostRecent: str
     const files = await fs.readdir(samplesDir);
     const txtFiles = files.filter((f) => f.endsWith(".txt"));
 
-    // Sort files by name to get most recent (assuming date-based naming)
-    // Files like 5jan26.txt, 4dec25.txt, etc.
+    // Sort by date, newest first
     txtFiles.sort((a, b) => {
-      // Extract date info for sorting - most recent first
-      // This is a simple sort that puts newer dates first based on filename
-      return b.localeCompare(a);
+      const dateA = parseDateFromFilename(a);
+      const dateB = parseDateFromFilename(b);
+      if (!dateA || !dateB) return 0;
+      return dateB.getTime() - dateA.getTime();
     });
 
     const samples = await Promise.all(
@@ -28,9 +48,8 @@ async function loadSampleReports(): Promise<{ samples: string[]; mostRecent: str
 
     const validSamples = samples.filter((s) => s.length > 0);
 
-    // Most recent report is the first one (5jan26.txt based on our naming)
-    // Find the file that starts with "5jan26" specifically as it's the most recent
-    const mostRecentFile = txtFiles.find(f => f.includes("5jan26")) || txtFiles[0];
+    // Most recent is now first in the sorted array
+    const mostRecentFile = txtFiles[0];
     let mostRecent = "";
 
     if (mostRecentFile) {
