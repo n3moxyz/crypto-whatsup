@@ -257,7 +257,7 @@ export default function WhatsUpDisplay({ data, isLoading }: WhatsUpDisplayProps)
             style={{ fontSize: "var(--text-sm)", lineHeight: 1.6 }}
           >
             <span className="text-primary font-semibold">Bias: </span>
-            <span dangerouslySetInnerHTML={{ __html: formatText(data.conclusion) }} />
+            <span className="italic" dangerouslySetInnerHTML={{ __html: formatText(data.conclusion) }} />
           </p>
         </div>
       )}
