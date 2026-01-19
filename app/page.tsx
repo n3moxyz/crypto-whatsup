@@ -205,11 +205,11 @@ export default function Home() {
     <div className="min-h-screen bg-primary">
       {/* Header */}
       <header className="header">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="header-content max-w-6xl mx-auto flex items-center justify-between">
+          <div className="header-info flex items-center gap-3">
             {/* Logo */}
             <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center"
+              className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: "var(--accent)" }}
             >
               <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -220,21 +220,25 @@ export default function Home() {
               <h1 className="text-lg font-bold text-primary">
                 Crypto - What's Up?
               </h1>
-              <p className="text-muted flex items-center gap-1" style={{ fontSize: "var(--text-xs)" }}>
-                Liquid markets update with one click | Powered by{" "}
-                <a
-                  href="https://x.com/cptn3mox"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-accent hover:underline inline-flex items-center gap-1"
-                >
-                  <img
-                    src="https://unavatar.io/twitter/cptn3mox"
-                    alt="cptn3mox"
-                    className="w-4 h-4 rounded-full"
-                  />
-                  @cptn3mox
-                </a>
+              <p className="header-subtitle text-muted flex items-center gap-1" style={{ fontSize: "var(--text-xs)" }}>
+                <span>Liquid markets update with one click</span>
+                <span className="hidden sm:inline">|</span>
+                <span className="flex items-center gap-1">
+                  Powered by{" "}
+                  <a
+                    href="https://x.com/cptn3mox"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:underline inline-flex items-center gap-1"
+                  >
+                    <img
+                      src="https://unavatar.io/twitter/cptn3mox"
+                      alt="cptn3mox"
+                      className="w-4 h-4 rounded-full"
+                    />
+                    @cptn3mox
+                  </a>
+                </span>
               </p>
             </div>
           </div>

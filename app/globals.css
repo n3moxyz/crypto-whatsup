@@ -224,7 +224,30 @@ body {
   z-index: 50;
   background-color: var(--bg-card);
   border-bottom: 1px solid var(--border-color);
-  padding: 16px 20px;
+  padding: 20px 20px;
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 16px 16px;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .header-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .header-subtitle {
+    flex-wrap: wrap;
+    line-height: 1.6;
+  }
 }
 
 /* Loading dots */
