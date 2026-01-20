@@ -8,8 +8,8 @@ interface CachedWhatsUp {
   expiresAt: string;
 }
 
-// Cache duration: 3 hours in milliseconds
-const CACHE_DURATION_MS = 3 * 60 * 60 * 1000;
+// Cache duration: 24 hours in milliseconds (Vercel Hobby plan only allows daily cron)
+const CACHE_DURATION_MS = 24 * 60 * 60 * 1000;
 
 // In-memory cache (survives warm function instances)
 let memoryCache: CachedWhatsUp | null = null;
