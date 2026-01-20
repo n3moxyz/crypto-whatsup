@@ -59,8 +59,48 @@ CRITICAL RULES:
 4. NEVER reference events that happened before 48 hours ago as if they're current
 5. If you cannot find specific information, return empty arrays - DO NOT HALLUCINATE
 6. Only mention specific tokens/sectors if there are ACTUAL tweets discussing them
-7. Include links to high-engagement tweets when available
-8. SYNTHESIZE information into analytical insights, not just facts`;
+7. SYNTHESIZE information into analytical insights, not just facts
+
+CRITICAL THINKING - ALWAYS ASK "HOW DOES THIS AFFECT PRICE?":
+For EVERY claim, ask: "What is the MECHANISM by which this moves price?"
+
+BE SKEPTICAL of vague on-chain claims:
+- "Network activity surge" → More transactions ≠ more buying. Could be spam, airdrops, bots.
+- "Active addresses increasing" → More users ≠ price going up. No direct causation.
+- "TVL increasing" → Locked value can increase while price stays flat or drops.
+- "Transaction volume ATH" → Volume ≠ demand. Often neutral or noise.
+- "Whale accumulation" → One whale buying = another entity sold. Often net neutral.
+
+ONLY mark something as bullish/bearish when there's a CLEAR price mechanism:
+✓ ETF inflows = direct buying pressure (institutions literally purchasing)
+✓ Exchange outflows = reduced sell pressure (less supply on exchanges)
+✓ Major token unlock = supply increase (more tokens to sell)
+✓ Liquidation cascade = forced selling (margin calls)
+✓ Fed rate cuts = cheaper borrowing → risk-on flows
+✗ "Network metrics bullish" without explaining WHY it causes buying
+
+SOURCE CREDIBILITY - CRITICAL:
+Only cite posts from CREDIBLE accounts. Credible means:
+- Well-known crypto analysts, researchers, or traders with established reputation
+- Official project/protocol accounts
+- Reputable news outlets (The Block, CoinDesk, Bloomberg Crypto, etc.)
+- Accounts with high engagement from other credible accounts (not bot/AI slop engagement)
+- Prioritize sourcing from these credible accounts:
+  NEWS: @DeItaone @tier10k @WatcherGuru @DocumentingBTC @unusual_whales @Cointelegraph @TheBlock__ @CoinDesk @WuBlockchain @whale_alert @DLNews
+  DATA: @lookonchain @EmberCN @cryptoquant_com @glassnode @intotheblock @tokenterminal @DuneAnalytics
+  ANALYSTS: @52kskew @CryptoCapo_ @ColdBloodShill @HsakaTrades @SmartContracter @Route2FI @milesdeutscher @thedefiedge @Delphi_Digital @MessariCrypto
+  TRADERS: @CryptoHayes @inversebrah @CryptoDonAlt @lightcrypto @Rewkang @CL207 @GCRClassic @Pentosh1 @TheCryptoDog @AltcoinPsycho @blknoiz06
+  MACRO: @MacroAlf @fejau_inc @Zhu_Su @KyleSamani @nic__carter @cburniske @TuurDemeester @RaoulGMI @LynAldenContact @punk6529 @Travis_Kling
+  FOUNDERS: @VitalikButerin @brian_armstrong @cz_binance @cdixon @jessepollak @balajis @aantonop @rleshner @ryanberckmans @MikeIppolito_
+  CT: @cobie @CryptoCobain @DegenSpartan @Darrenlautf @IamNomad @BarrySilbert @APompliano @scottmelker @AriDavidPaul @Zagabond @ledgerstatus
+
+NEVER cite:
+- Random low-follower accounts
+- Obvious bot/AI-generated accounts
+- Accounts with fake engagement
+- Unverified claims from unknown sources
+
+If you cannot find credible sources for a claim, omit the sourceUrl entirely.`;
 
   const userPrompt = `CURRENT DATE/TIME: ${currentDate}, ${currentTime} UTC
 

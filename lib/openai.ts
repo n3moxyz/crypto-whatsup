@@ -177,6 +177,26 @@ CURRENT DATE/TIME: ${currentDate}, ${currentTime} UTC
 YOUR GOAL: Write analytical insights that explain WHAT is happening AND WHY it matters.
 Frame observations as market narratives, not just price reports.
 
+CRITICAL THINKING - ALWAYS ASK "HOW DOES THIS AFFECT PRICE?":
+For EVERY claim you consider including, ask yourself:
+- "Does this actually cause people to buy or sell?"
+- "What is the MECHANISM by which this moves price?"
+- "Is this correlation or causation?"
+
+BE SKEPTICAL of claims like:
+- "Network activity surge signals bullishness" → Does more transactions = more buying pressure? Usually NO.
+- "Transaction volume at all-time high" → Volume ≠ demand. Could be spam, airdrops, or neutral activity.
+- "Active addresses increasing" → More users doesn't automatically mean price goes up.
+- "TVL increasing" → Locked value can increase while price stays flat or drops.
+- "Whale accumulation" → One whale buying means another entity sold. Net effect often neutral.
+
+ONLY claim bullish/bearish when there's a CLEAR mechanism:
+✓ "ETF inflows of $1.2B = direct buying pressure from institutions"
+✓ "Exchange outflows suggest holders moving to cold storage = reduced sell pressure"
+✓ "Fed rate cut = cheaper borrowing, risk-on sentiment, flows into crypto"
+✓ "Major unlock event = supply increase = sell pressure"
+✓ "Liquidation cascade = forced selling = bearish"
+
 CRITICAL RULES - MUST FOLLOW:
 1. ONLY use information from the provided price data and X/Twitter intelligence
 2. NEVER make up statistics, ratios, percentages, or specific numbers not in the data
@@ -185,6 +205,7 @@ CRITICAL RULES - MUST FOLLOW:
 5. Only mention specific sectors (AI, DePIN, memes, etc.) if there are SPECIFIC TOKENS with notable moves in the data
 6. The price data shows ACTUAL current prices and 24h changes - use these exact numbers
 7. If X/Twitter intel is empty or sparse, focus only on what you can verify from the price data
+8. Don't cite vague "on-chain metrics" as bullish/bearish unless you can explain the direct price mechanism
 
 QUALITY GUIDANCE - BAD vs GOOD examples:
 
@@ -196,6 +217,9 @@ GOOD: "Regulatory uncertainty weighing on sentiment despite positive ETF flows"
 
 BAD: "Prices went down today"
 GOOD: "Federal Reserve policy uncertainty creating sideways action with elevated volatility"
+
+BAD: "Network activity surge signals structural bullishness"
+GOOD: "ETF inflows creating direct buying pressure" (explains the mechanism)
 
 FORMATTING:
 - BTC: $104k format (use actual price from data)
@@ -263,16 +287,23 @@ QUALITY CHECKLIST:
 - If a reason has a [SOURCE: url] in the intel, include it as sourceUrl
 - If no reason is known, omit the subPoints field entirely
 
-GOOD main points (analytical framing):
-✓ "Regulatory uncertainty weighing on sentiment despite positive ETF flows"
-✓ "Federal Reserve policy uncertainty creating sideways action"
-✓ "Altcoin ETF deadline approaching with potential for volatility"
-✓ "Institutional accumulation continues as retail sentiment remains fearful"
+CRITICAL THINKING CHECKLIST (for EVERY claim):
+- Can you explain HOW this causes buying/selling pressure?
+- Is this correlation or actual causation?
+- Would a skeptical trader find this reasoning convincing?
+- Avoid vague "on-chain activity" claims unless you explain the price mechanism
 
-BAD main points (just restating facts):
-✗ "BTC dropped to $93k"
-✗ "SEC delayed decision"
-✗ "Prices are down today"`;
+GOOD main points (clear price mechanism):
+✓ "ETF inflows creating $1.2B of direct buying pressure" (mechanism: actual purchases)
+✓ "Fed rate cut expectations driving risk-on flows into crypto" (mechanism: cheaper capital → risk assets)
+✓ "Exchange outflows suggesting reduced sell pressure as holders move to cold storage" (mechanism: less supply on exchanges)
+✓ "Token unlock creating supply pressure with 5% of circulating supply entering market" (mechanism: more supply)
+
+BAD main points (vague or no mechanism):
+✗ "Network activity surge signals bullishness" (more txs ≠ more buying)
+✗ "Active addresses at ATH is bullish" (more users ≠ more buying pressure)
+✗ "On-chain metrics looking strong" (vague, no mechanism)
+✗ "Whale accumulation detected" (one buys = another sold, often neutral)`;
 
   const response = await fetch(ANTHROPIC_API, {
     method: "POST",

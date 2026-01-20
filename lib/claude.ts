@@ -23,21 +23,22 @@ export async function generateReport(
     year: "numeric",
   });
 
-  const systemPrompt = `You are a crypto market analyst writing weekly updates. Your writing style is direct, data-driven, and objective. You use bullet points heavily and avoid hype or sensationalism.
+  const systemPrompt = `You are a crypto market analyst writing weekly updates. Your writing style is direct, data-driven, and objective. Avoid hype or sensationalism.
 
 Here are examples of past reports to match the tone and style:
 ${sampleReports.map((sample, i) => `--- Sample ${i + 1} ---\n${sample}\n`).join("\n")}
 
 IMPORTANT RULES:
-- Follow the EXACT 4-part structure specified
+- Match the EXACT formatting style from the samples above
 - Be concise - one-liners where requested
 - Be objective but give a clear stance (bullish/bearish/neutral)
 - Only recommend tokens if there's a SPECIFIC, justified reason. If none, say "No specific altcoin calls this week."
-- Use your knowledge of the economic calendar to identify upcoming macro events`;
+- Use your knowledge of the economic calendar to identify upcoming macro events
+- Do NOT use bullet point characters (-, •, *, etc.) - just write each point on its own line without any prefix`;
 
-  const userPrompt = `Write a market update for ${dateStr} following this EXACT structure:
+  const userPrompt = `Write a market update for ${dateStr}.
 
-CURRENT PRICES:
+CURRENT PRICES (for your reference only):
 ${priceData}
 Market data: BTC 24h change: ${summary.btcChange24h >= 0 ? "+" : ""}${summary.btcChange24h.toFixed(2)}% | ETH 24h change: ${summary.ethChange24h >= 0 ? "+" : ""}${summary.ethChange24h.toFixed(2)}% | SOL 24h change: ${summary.solChange24h >= 0 ? "+" : ""}${summary.solChange24h.toFixed(2)}%
 
@@ -46,30 +47,37 @@ ${mostRecentReport}
 
 ---
 
-Write the report with these 4 parts:
+Start with this EXACT header:
+*Markets update (${dateStr})* #liquid #macro
 
-**1) Where we last left off**
-- Briefly recap the key points from the previous update above
-- What was the stance/outlook then?
-- 2-3 bullet points max
+Then write the report with these sections (wrap section headers in single asterisks):
 
-**2) Current state of the market**
-- BTC: current price + ONE sentence explaining why it's trading at this level
-- ETH: current price + ONE sentence explaining why it's trading at this level
-- SOL: current price + ONE sentence explaining why it's trading at this level
-- End with a clear stance: Are we leaning BULLISH, BEARISH, or NEUTRAL this week? What can readers expect?
+*1) Where we left off*
+Briefly recap the key points from the previous update above.
+What was the stance/outlook then?
+2-3 lines max, each on its own line.
 
-**3) Macro background**
-- List any notable upcoming macro events in the next 1-2 weeks (CPI, FOMC, jobs data, etc.)
-- For each event: ONE sentence on expected impact on crypto (clearly state if good or bad)
-- If no major events, say so
+*2) Current state of the market*
+BTC: current price + ONE sentence explaining why it's trading at this level.
+ETH: current price + ONE sentence explaining why it's trading at this level.
+SOL: current price + ONE sentence explaining why it's trading at this level.
+You can add sub-sections like "Good signs" and "Caveats" if relevant.
+End with a clear stance.
 
-**4) Outlook and conclusion**
-- 2-4 bullet points on where the market is headed
-- Any tokens worth watching? ONLY mention if there's a specific catalyst or reason. If nothing stands out, explicitly say "No specific altcoin calls this week - focus remains on majors."
-- Don't force recommendations
+*3) Macro background*
+List any notable upcoming macro events in the next 1-2 weeks (CPI, FOMC, jobs data, etc.).
+For each event: ONE sentence on expected impact on crypto.
+If no major events, say so.
 
-Use bullet points. Be direct. Match the writing style from the samples.`;
+*4) Outlook and conclusion*
+2-4 lines on where the market is headed.
+Any tokens worth watching? ONLY mention if there's a specific catalyst.
+
+CRITICAL FORMATTING:
+- Header: "*Markets update (${dateStr})* #liquid #macro"
+- Section headers wrapped in single asterisks: "*1) Where we left off*"
+- Each point goes on its own line WITHOUT any bullet characters (no •, -, or *)
+- Match the exact style from the sample reports`;
 
   const response = await fetch(ANTHROPIC_API, {
     method: "POST",
