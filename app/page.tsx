@@ -407,7 +407,7 @@ export default function Home() {
               </div>
             )}
             {/* CoinGecko attribution */}
-            <div className="mt-3 pt-3 flex items-center gap-2" style={{ borderTop: "1px solid var(--border-color)" }}>
+            <div className="mt-3 pt-3 flex items-center justify-end gap-2" style={{ borderTop: "1px solid var(--border-color)" }}>
               <span className="text-muted" style={{ fontSize: "var(--text-xs)" }}>
                 Prices via{" "}
                 <a
@@ -430,12 +430,64 @@ export default function Home() {
 
         {/* Actions Section */}
         <section className="mb-6">
-          <div className="flex items-center gap-3">
-            <h2 className="font-bold text-primary" style={{ fontSize: "var(--text-base)" }}>
-              Actions
-            </h2>
-            <WhatsUpButton onClick={fetchWhatsUp} isLoading={isWhatsUpLoading} />
-            <ReportButton onClick={generateReport} isLoading={isLoading} onAuthenticated={() => setIsReportAuthenticated(true)} />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <h2 className="font-bold text-primary" style={{ fontSize: "var(--text-base)" }}>
+                Actions
+              </h2>
+              <WhatsUpButton onClick={fetchWhatsUp} isLoading={isWhatsUpLoading} />
+              {/* Info icon with hover tooltip */}
+              <div className="relative group">
+                <button
+                  className="w-4 h-4 rounded-full flex items-center justify-center text-muted hover:text-primary transition-colors"
+                  style={{
+                    backgroundColor: "var(--bg-tertiary)",
+                    border: "1px solid var(--border-color)",
+                    fontSize: "10px",
+                  }}
+                  aria-label="How to use this app"
+                >
+                  i
+                </button>
+                {/* Tooltip on hover */}
+                <div
+                  className="absolute left-0 top-full mt-2 w-72 p-4 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+                  style={{
+                    backgroundColor: "var(--bg-primary)",
+                    border: "1px solid var(--border-color)",
+                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+                  }}
+                >
+                  <h4 className="text-primary font-semibold mb-3" style={{ fontSize: "var(--text-sm)" }}>
+                    How to use
+                  </h4>
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-2">
+                      <span className="text-accent font-medium" style={{ fontSize: "var(--text-xs)" }}>1.</span>
+                      <p className="text-secondary" style={{ fontSize: "var(--text-xs)", lineHeight: 1.5 }}>
+                        Press <span className="font-medium text-accent">What's Up?</span> to get the latest market summary (24-48h)
+                      </p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-accent font-medium" style={{ fontSize: "var(--text-xs)" }}>2.</span>
+                      <p className="text-secondary" style={{ fontSize: "var(--text-xs)", lineHeight: 1.5 }}>
+                        Click <span className="italic">Tell me more</span> on any point for deeper explanation
+                      </p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-accent font-medium" style={{ fontSize: "var(--text-xs)" }}>3.</span>
+                      <p className="text-secondary" style={{ fontSize: "var(--text-xs)", lineHeight: 1.5 }}>
+                        Ask follow-up questions to dig even deeper
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Generate Update button - faded, right-aligned for internal use */}
+            <div style={{ opacity: 0.5 }}>
+              <ReportButton onClick={generateReport} isLoading={isLoading} onAuthenticated={() => setIsReportAuthenticated(true)} />
+            </div>
           </div>
         </section>
 
