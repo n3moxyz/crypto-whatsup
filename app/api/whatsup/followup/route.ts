@@ -2,6 +2,38 @@ import { NextRequest, NextResponse } from "next/server";
 
 const ANTHROPIC_API = "https://api.anthropic.com/v1/messages";
 
+// Retry configuration for overloaded errors
+const MAX_RETRIES = 3;
+const INITIAL_DELAY_MS = 2000;
+
+async function fetchWithRetry(
+  url: string,
+  options: RequestInit,
+  retries = MAX_RETRIES
+): Promise<Response> {
+  let lastError: Error | null = null;
+
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const response = await fetch(url, options);
+
+    // If success or non-retryable error, return immediately
+    if (response.ok || (response.status !== 429 && response.status !== 529)) {
+      return response;
+    }
+
+    // Retryable error (rate limit or overloaded)
+    lastError = new Error(`API overloaded (${response.status})`);
+
+    if (attempt < retries) {
+      const delay = INITIAL_DELAY_MS * Math.pow(2, attempt); // Exponential backoff
+      console.log(`Claude API overloaded, retrying in ${delay}ms (attempt ${attempt + 1}/${retries})`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+
+  throw lastError || new Error("Max retries exceeded");
+}
+
 export interface FollowUpMessage {
   role: "user" | "assistant";
   content: string;
@@ -95,7 +127,7 @@ USER QUESTION: ${question}`;
       },
     ];
 
-    const response = await fetch(ANTHROPIC_API, {
+    const response = await fetchWithRetry(ANTHROPIC_API, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
