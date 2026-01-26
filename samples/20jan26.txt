@@ -1,0 +1,32 @@
+*Markets update (20 Jan 2026)* #liquid #macro
+
+*1) Where we left off*
+The stance from 15 Jan was "constructive improvement — transition phase".
+BTC broke $97k with good strength from ETH and Alts, so this was not just a BTC-only bounce.
+The assessment was cautiously optimistic but not yet ready to deploy aggressively.
+
+*2) Current state of the market*
+BTC: Back at $90k after harsh rejection of the $97k breakout -> means the market was not ready for momentum (too many sellers stepped in at that key level).
+ETH: Holding $3k but largely underperforming BTC -> indicating overall altcoin weakness.
+
+*Concerning signs*
+ETHBTC at 0.0334 is concerning as that is approaching Nov-Dec lows (@ 0.032) which was the market bottom (see chart)
+Risk appetite appears to be cooling + aggressive profit taking after last week's strength
+Derisking ahead of big macro events next week expected, but surprisingly aggressively
+
+*What this means:*
+Our take on being cautiously optimistic about the market was right. NO FOMO to ape in despite strength past $97k was good.
+How long this pullback lasts will determine if we are reverting to chop
+  Deep pullback -> chop;
+  These levels hold -> transition phase to bull.
+
+*3) Macro background*
+FOMC scheduled for 28-29 Jan with rate cut expectations remaining uncertain. Good news is inflation was lower than forecast by a TINY margin.
+Dec PCE data due 31 Jan, which will influence Fed policy stance going into their meeting.
+Any hawkish surprises would pressure risk assets further given current market fragility.
+
+*4) Outlook and conclusion*
+1. The market is at a critical juncture where the "constructive improvement" narrative gets tested.
+2. If BTC holds $87k support and ETH maintains $3k, the transition phase thesis remains intact. (i.e. the bottom held)
+   a. A break below these levels would signal a return to the choppy, failed-bounce pattern we saw in October.
+3. Definitely not the time to make altcoin recommendations — focus remains on watching how majors respond to this test.
