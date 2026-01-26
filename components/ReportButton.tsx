@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 
 interface ReportButtonProps {
   onClick: () => void;
@@ -14,6 +15,11 @@ export default function ReportButton({ onClick, isLoading, onAuthenticated }: Re
   const [error, setError] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleClick = () => {
     // Always prompt for password on every click
@@ -113,8 +119,8 @@ export default function ReportButton({ onClick, isLoading, onAuthenticated }: Re
         )}
       </button>
 
-      {/* Password Modal */}
-      {showPasswordModal && (
+      {/* Password Modal - rendered via portal to avoid parent opacity inheritance */}
+      {mounted && showPasswordModal && createPortal(
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"
           style={{ backgroundColor: "rgba(0, 0, 0, 0.92)" }}
@@ -210,7 +216,8 @@ export default function ReportButton({ onClick, isLoading, onAuthenticated }: Re
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
