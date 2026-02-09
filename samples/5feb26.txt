@@ -1,0 +1,29 @@
+*Markets update (5 Feb 2026)* #liquid #macro
+
+[See 27 Jan note for reference]
+
+*1) Where we left off*
+- The previous update confirmed bear market conditions after FOMC hawkishness and geopolitical escalation with US-Iran.
+- BTC had broken below $75k support with charts pointing to $70k next, while ETH was targeting $1.8k and SOL eyeing $78.
+- The stance was defensive - largely stabled up to preserve capital.
+
+*2) Current state of the market*
+- BTC @ $73k after breaking $83k support (previous lows) and just one-way down. Next level is $69k for BTC which is pre-Trump in Oct '24.
+- ETH down to $2.1k as selling pressure continues with no meaningful bounce attempts. Next level is $1.8k then $1.5k which is pre-BMNR in May '25.
+- SOL weakest performer at $91, absolutely no bids like ETH. They have additional sell pressure from monthly FTX unlocks. Next level is ~$78 during Dec '23 period after Vitalik's legendary bottom tweet.
+- HYPE incredibly strong amidst this market, cementing itself a true major for the next cycle (now alr >half of SOL FDV).
+
+*The deterioration is accelerating:*
+- ETHBTC collapsed to 0.028, setting new cycle lows below the 0.032 floor in Q4. This is approaching pre-BMNR levels which was 0.02-0.025 (when we entered the giga ETHBTC long).
+- All three majors posting significant daily losses with no signs of dip buying.
+- Speed and magnitude of this breakdown (slow consistent sells across days) suggests aggressive spot unwinding rather than deleveraged liquidations (i.e. bear market defensive mentality).
+
+*3) Macro background*
+- FOMC meeting last week concluded with Fed holding rates steady, but commentary more hawkish than expected on inflation persistence.
+- Jan jobs data due Fri 6 Feb could be negative catalyst for further weakness if it comes out strong (good employment numbers = reinforce Fed hawkishness = push rate cut expectations).
+- No other major macro events this week, but geopolitical tensions remain elevated.
+
+*4) Outlook and conclusion*
+- This confirms the bear market thesis - we're in a genuine downtrend, not just chop.
+- Back in defensive, wait-and-see mode. Not the time to catch falling knives by allocating into alts with little edge (let alone large unlocks).
+- Next major support zones: BTC $69k, ETH $1.8k, SOL $78 - but we may also not get there if macro changes (reassess closely).
