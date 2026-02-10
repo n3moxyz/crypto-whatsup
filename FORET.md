@@ -68,9 +68,12 @@ crypto-report-generator/
 │   │   ├── telegram/route.ts         # Telegram webhook
 │   │   └── generate/route.ts         # Weekly reports
 │   ├── layout.tsx                    # App shell with theme
-│   └── page.tsx                      # The main UI
+│   └── page.tsx                      # The main UI + page layout
 ├── components/
-│   ├── WhatsUpDisplay.tsx            # The star of the show
+│   ├── WhatsUpDisplay.tsx            # Market summary with follow-up chat
+│   ├── EthBtcChart.tsx               # ETH/BTC ratio chart with level legend
+│   ├── TopMovers.tsx                 # Top gainers/losers with tier toggle
+│   ├── FeaturePreview.tsx            # Landing page preview (pre-interaction)
 │   └── ...                           # Supporting cast
 ├── lib/
 │   ├── claude.ts                     # Claude integration
@@ -238,6 +241,34 @@ processWhatsUp(chatId).then(result => {
 
 ---
 
+## The Landing Page: First Impressions Matter
+
+When we first built the app, visitors landed on a page with prices, a mysterious "Actions" heading, and a lot of empty space. Not great for first-time users who have no idea what the app does.
+
+### The Redesign: Three Layers
+
+We replaced the generic layout with a purpose-driven flow:
+
+**1. Hero CTA Card** — Replaces the old "Actions" section. Clear heading ("Get Your Market Briefing"), a two-line description of what the app actually does, and the "What's Up?" button front and center. No mystery, no hunting.
+
+**2. Feature Preview** — A grid of three cards (Market Bullets, Follow-Up Chat, Top Movers) explaining what you'll get, plus a faded mock preview of sample output with a gradient fade. This fills the empty void and sets expectations. It disappears once you click "What's Up?" and real data loads.
+
+**3. Consolidated Prices Section** — The ETH/BTC chart and Top Movers used to be separate sections scattered down the page. Now they're collapsible sub-sections nested inside Current Prices, keeping everything organized under one roof. Both are collapsed by default with "Show/Collapse" toggles.
+
+### The ETH/BTC Level Legend
+
+Instead of showing a single label like "Cycle lows territory," we now show all five levels stacked vertically. The active level (based on the live ratio) is highlighted with full opacity and a colored dot (green for bullish levels, red for bearish). The other levels are dimmed to 35% opacity. You can always see where you sit in the full scale at a glance.
+
+### Admin Mode: Hidden in Plain Sight
+
+The app has internal features (Archive, Generate Update, Report section) that are password-gated but shouldn't be visible to public users at all. Instead of hiding them behind a settings page or URL parameter (which could leak), we use a keyboard shortcut that toggles "admin mode."
+
+The state is persisted in localStorage under an obscure key, so it survives refreshes. When off (the default), those elements aren't rendered at all—not hidden with CSS, not faded, just absent from the DOM. No trace they exist.
+
+**The lesson:** For internal tools on public-facing apps, "hidden" is better than "locked." A locked door invites curiosity. An invisible door doesn't.
+
+---
+
 ## Patterns That Good Engineers Use
 
 ### Pattern 1: Parallel by Default
@@ -314,6 +345,12 @@ GOOD: "This typically causes 5-15% corrections as leveraged
        positions unwind over 24-48 hours."
 `;
 ```
+
+### Pattern 5: Extract When Reused, Nest When Related
+
+When Top Movers lived inside `WhatsUpDisplay`, it was tied to the market summary lifecycle—invisible until you clicked "What's Up?". But top movers are price data, not analysis. Moving it to its own `TopMovers.tsx` component and rendering it in the prices section meant it loads with prices, not with the AI summary.
+
+The rule: if a piece of UI belongs to a different *data lifecycle* than its parent component, extract it. If it belongs to the same section visually, nest it (like ETH/BTC chart inside the prices card) rather than making it a standalone section.
 
 ---
 
