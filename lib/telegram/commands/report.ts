@@ -117,7 +117,7 @@ async function generateAndSendReport(ctx: BotContext): Promise<void> {
 
   try {
     // Fetch price data
-    const defaultIds = ["bitcoin", "ethereum", "solana", "binancecoin", "ripple"];
+    const defaultIds = ["bitcoin", "ethereum", "solana", "ripple", "hyperliquid"];
     const coins = await fetchSpecificCoins(defaultIds);
 
     // Load sample reports

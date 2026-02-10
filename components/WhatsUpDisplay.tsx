@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { deriveSentimentFromConclusion } from "@/lib/sentimentStorage";
 
 const ESTIMATED_TIME = 45; // Estimated seconds for market summary
 
@@ -125,6 +126,7 @@ export default function WhatsUpDisplay({ data, isLoading }: WhatsUpDisplayProps)
   const [chatInput, setChatInput] = useState("");
   const [isChatLoading, setIsChatLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const [isCopied, setIsCopied] = useState(false);
 
   // Reset and start timer when loading begins
   useEffect(() => {
@@ -269,6 +271,55 @@ export default function WhatsUpDisplay({ data, isLoading }: WhatsUpDisplayProps)
     return `$${price.toFixed(4)}`;
   };
 
+  const handleCopyToClipboard = async () => {
+    const bullets = normalizeBullets(data.bullets);
+
+    let text = "Crypto Market Update\n";
+    text += "═══════════════════\n\n";
+
+    bullets.forEach((bullet, index) => {
+      text += `• ${bullet.main}\n`;
+
+      // Add sub-points
+      if (bullet.subPoints && bullet.subPoints.length > 0) {
+        bullet.subPoints.forEach((sub) => {
+          const { text: subText } = normalizeSubPoint(sub);
+          text += `  → ${subText}\n`;
+        });
+      }
+
+      // Add expanded elaboration if available
+      const elaboration = preloadedElaborations[index];
+      if (elaboration) {
+        text += `  💡 ${elaboration}\n`;
+      }
+
+      text += "\n";
+    });
+
+    if (data.conclusion) {
+      text += `Bias: ${data.conclusion}\n`;
+    }
+
+    try {
+      await navigator.clipboard.writeText(text);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch {
+      // Fallback for older browsers
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    }
+  };
+
   const bullets = normalizeBullets(data.bullets);
 
   // Get current loading message based on progress
@@ -354,39 +405,7 @@ export default function WhatsUpDisplay({ data, isLoading }: WhatsUpDisplayProps)
     neutral: { className: "pill-neutral", label: "Neutral" },
   };
 
-  // Derive sentiment from conclusion text if available (more accurate than API sentiment)
-  const deriveSentimentFromConclusion = (): "bullish" | "bearish" | "neutral" => {
-    if (!data.conclusion) return data.sentiment;
-    const conclusionLower = data.conclusion.toLowerCase();
-
-    // Check for explicit bearish indicators
-    if (
-      conclusionLower.includes("leaning bearish") ||
-      conclusionLower.includes("bearish short") ||
-      conclusionLower.includes("bearish medium") ||
-      conclusionLower.includes("bearish long") ||
-      conclusionLower.includes("strongly bearish") ||
-      (conclusionLower.includes("bearish") && !conclusionLower.includes("not bearish"))
-    ) {
-      return "bearish";
-    }
-
-    // Check for explicit bullish indicators
-    if (
-      conclusionLower.includes("leaning bullish") ||
-      conclusionLower.includes("bullish short") ||
-      conclusionLower.includes("bullish medium") ||
-      conclusionLower.includes("bullish long") ||
-      conclusionLower.includes("strongly bullish") ||
-      (conclusionLower.includes("bullish") && !conclusionLower.includes("not bullish"))
-    ) {
-      return "bullish";
-    }
-
-    return "neutral";
-  };
-
-  const derivedSentiment = deriveSentimentFromConclusion();
+  const derivedSentiment = deriveSentimentFromConclusion(data.conclusion, data.sentiment);
   const sentiment = sentimentConfig[derivedSentiment] || sentimentConfig.neutral;
 
   return (
@@ -396,9 +415,33 @@ export default function WhatsUpDisplay({ data, isLoading }: WhatsUpDisplayProps)
         <span className="text-secondary font-medium" style={{ fontSize: "var(--text-base)" }}>
           24-48h Market Overview
         </span>
-        <span className={`pill ${sentiment.className}`}>
-          {sentiment.label}
-        </span>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleCopyToClipboard}
+            className="btn-ghost flex items-center gap-1.5 transition-all"
+            style={{ fontSize: "var(--text-xs)" }}
+            aria-label="Copy market update to clipboard"
+          >
+            {isCopied ? (
+              <>
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Copied!</span>
+              </>
+            ) : (
+              <>
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+                <span>Copy</span>
+              </>
+            )}
+          </button>
+          <span className={`pill ${sentiment.className}`}>
+            {sentiment.label}
+          </span>
+        </div>
       </div>
 
       {/* Bullet Points with Sub-points */}

@@ -1,5 +1,5 @@
-import { fetchSpecificCoins, CoinData } from "./coingecko";
-import { fetchCryptoIntelFromGrok, GrokCryptoIntel, SourcedClaim, ThemeInsight } from "./grok";
+import { fetchSpecificCoins } from "./coingecko";
+import { fetchCryptoIntelFromGrok, SourcedClaim, ThemeInsight } from "./grok";
 
 const ANTHROPIC_API = "https://api.anthropic.com/v1/messages";
 
@@ -90,14 +90,14 @@ export async function generateWhatsUp(): Promise<WhatsUpData> {
   const btc = coins.find(c => c.symbol === "btc");
   const eth = coins.find(c => c.symbol === "eth");
   const sol = coins.find(c => c.symbol === "sol");
-  const bnb = coins.find(c => c.symbol === "bnb");
   const xrp = coins.find(c => c.symbol === "xrp");
+  const hype = coins.find(c => c.symbol === "hype");
 
   const priceLines: string[] = [];
   if (btc) priceLines.push(`BTC: ${formatBtcPrice(btc.current_price)} (24h: ${btc.price_change_percentage_24h >= 0 ? '+' : ''}${btc.price_change_percentage_24h.toFixed(1)}%)`);
   if (eth) priceLines.push(`ETH: ${formatEthPrice(eth.current_price)} (24h: ${eth.price_change_percentage_24h >= 0 ? '+' : ''}${eth.price_change_percentage_24h.toFixed(1)}%)`);
   if (sol) priceLines.push(`SOL: ${formatSolPrice(sol.current_price)} (24h: ${sol.price_change_percentage_24h >= 0 ? '+' : ''}${sol.price_change_percentage_24h.toFixed(1)}%)`);
-  if (bnb) priceLines.push(`BNB: ${formatOtherPrice(bnb.current_price)} (24h: ${bnb.price_change_percentage_24h >= 0 ? '+' : ''}${bnb.price_change_percentage_24h.toFixed(1)}%)`);
+  if (hype) priceLines.push(`HYPE: ${formatOtherPrice(hype.current_price)} (24h: ${hype.price_change_percentage_24h >= 0 ? '+' : ''}${hype.price_change_percentage_24h.toFixed(1)}%)`);
   if (xrp) priceLines.push(`XRP: ${formatOtherPrice(xrp.current_price)} (24h: ${xrp.price_change_percentage_24h >= 0 ? '+' : ''}${xrp.price_change_percentage_24h.toFixed(1)}%)`);
 
   const priceContext = priceLines.join('\n');

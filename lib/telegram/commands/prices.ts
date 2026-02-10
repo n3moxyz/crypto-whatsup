@@ -14,7 +14,7 @@ import {
 import { getPricesKeyboard } from "../keyboards";
 
 // Default coins to show
-const DEFAULT_COIN_IDS = ["bitcoin", "ethereum", "solana", "binancecoin", "ripple"];
+const DEFAULT_COIN_IDS = ["bitcoin", "ethereum", "solana", "ripple", "hyperliquid"];
 
 async function fetchPriceData() {
   const [selectedCoins, top100Coins] = await Promise.all([

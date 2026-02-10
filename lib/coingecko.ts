@@ -33,7 +33,7 @@ export interface TopMover {
 const COINGECKO_API = "https://api.coingecko.com/api/v3";
 
 // Default coins to show (BTC, ETH, SOL, BNB, XRP)
-const DEFAULT_COIN_IDS = ["bitcoin", "ethereum", "solana", "binancecoin", "ripple"];
+const DEFAULT_COIN_IDS = ["bitcoin", "ethereum", "solana", "ripple", "hyperliquid"];
 
 // Known stablecoin IDs to filter out
 const STABLECOIN_IDS = [

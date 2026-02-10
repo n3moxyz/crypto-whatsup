@@ -58,9 +58,25 @@ npm run dev
 
 ## Commands
 ```bash
-npm run dev      # Start dev server (http://localhost:3000)
+npm run dev      # Start dev server (http://localhost:3100)
 npm run build    # Production build
 npm run lint     # Run ESLint
+```
+
+## Dev Server Management
+
+> **CRITICAL**: NEVER run `taskkill /F /IM node.exe` during an active Claude Code session.
+> Claude Code runs on Node.js — killing all node processes kills Claude Code itself, crashing the session.
+
+**Restart dev server (safe mid-session):**
+```powershell
+# Kill only the process on port 3100, leave Claude Code alive
+powershell -Command "Get-NetTCPConnection -LocalPort 3100 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }"
+```
+
+**End-of-session cleanup (user runs manually after exiting Claude Code):**
+```powershell
+taskkill /F /IM node.exe
 ```
 
 ## Architecture

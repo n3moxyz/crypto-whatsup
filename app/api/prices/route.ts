@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
         .filter((c): c is CoinData => c !== undefined);
     } else {
       // Default coins
-      const defaultIds = ["bitcoin", "ethereum", "solana", "binancecoin", "ripple"];
+      const defaultIds = ["bitcoin", "ethereum", "solana", "binancecoin", "ripple", "hyperliquid"];
       selectedCoinsData = defaultIds
         .map(id => top300Coins.find(c => c.id === id))
         .filter((c): c is CoinData => c !== undefined);

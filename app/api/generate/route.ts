@@ -61,7 +61,7 @@ async function loadSampleReports(): Promise<{ samples: string[]; mostRecent: str
       samples: validSamples,
       mostRecent: mostRecent || validSamples[0] || "",
     };
-  } catch (error) {
+  } catch {
     console.log("No sample reports found, generating without style reference");
     return { samples: [], mostRecent: "" };
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface ReportDisplayProps {
   report: string;
@@ -12,30 +12,26 @@ const ESTIMATED_TIME = 45; // Estimated seconds for report generation
 export default function ReportDisplay({ report, isLoading }: ReportDisplayProps) {
   const [copied, setCopied] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(ESTIMATED_TIME);
-  const [startTime, setStartTime] = useState<number | null>(null);
+  const startTimeRef = useRef<number | null>(null);
 
-  // Reset and start timer when loading begins
+  // Countdown timer — resets when isLoading changes
   useEffect(() => {
-    if (isLoading) {
-      setTimeRemaining(ESTIMATED_TIME);
-      setStartTime(Date.now());
-    } else {
-      setStartTime(null);
+    if (!isLoading) {
+      startTimeRef.current = null;
+      return;
     }
-  }, [isLoading]);
 
-  // Countdown timer
-  useEffect(() => {
-    if (!isLoading || !startTime) return;
+    startTimeRef.current = Date.now();
+    setTimeRemaining(ESTIMATED_TIME);
 
     const interval = setInterval(() => {
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const remaining = Math.max(0, ESTIMATED_TIME - elapsed);
-      setTimeRemaining(remaining);
+      if (!startTimeRef.current) return;
+      const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
+      setTimeRemaining(Math.max(0, ESTIMATED_TIME - elapsed));
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isLoading, startTime]);
+  }, [isLoading]);
 
   const copyToClipboard = async () => {
     try {
