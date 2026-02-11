@@ -1,5 +1,6 @@
 import { fetchSpecificCoins } from "./coingecko";
 import { fetchCryptoIntelFromGrok, SourcedClaim, ThemeInsight } from "./grok";
+import { fetchCryptoTweets, RankedTweet } from "./twitter-api";
 
 const ANTHROPIC_API = "https://api.anthropic.com/v1/messages";
 
@@ -51,6 +52,31 @@ function formatOtherPrice(price: number): string {
 }
 
 
+function formatFollowerCount(count: number): string {
+  if (count >= 1_000_000) return `${(count / 1_000_000).toFixed(1)}M`;
+  if (count >= 1_000) return `${(count / 1_000).toFixed(0)}K`;
+  return String(count);
+}
+
+function formatEngagement(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
+  return String(n);
+}
+
+function formatTweetIntel(tweets: RankedTweet[]): string {
+  if (tweets.length === 0) return '';
+
+  const lines = tweets.map((t, i) => {
+    return `[${i + 1}] @${t.username} (${formatFollowerCount(t.followers)} followers)
+    "${t.text}"
+    ${formatEngagement(t.likes)} likes, ${formatEngagement(t.retweets)} RTs, ${formatEngagement(t.views)} views
+    ${t.url} | ${t.createdAt}`;
+  });
+
+  return `\n\n=== RAW VERIFIED TWEETS (real engagement data) ===\n${lines.join('\n\n')}`;
+}
+
 export async function generateWhatsUp(): Promise<WhatsUpData> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
@@ -58,10 +84,11 @@ export async function generateWhatsUp(): Promise<WhatsUpData> {
     throw new Error("ANTHROPIC_API_KEY is not configured");
   }
 
-  // Fetch real prices and Grok intelligence in parallel
-  const [coins, grokIntel] = await Promise.all([
+  // Fetch real prices, Grok intelligence, and raw tweets in parallel
+  const [coins, grokIntel, twitterIntel] = await Promise.all([
     fetchSpecificCoins(),
-    fetchCryptoIntelFromGrok()
+    fetchCryptoIntelFromGrok(),
+    fetchCryptoTweets(),
   ]);
 
   // Sort by 24h change to get real top movers
@@ -169,6 +196,9 @@ export async function generateWhatsUp(): Promise<WhatsUpData> {
     }
   }
 
+  // Format raw tweet intelligence
+  const tweetContext = formatTweetIntel(twitterIntel);
+
   const systemPrompt = `You are a senior crypto market analyst writing for a trading desk.
 Your job is to provide ACTIONABLE INTELLIGENCE, not news summaries.
 
@@ -207,6 +237,13 @@ CRITICAL RULES - MUST FOLLOW:
 7. If X/Twitter intel is empty or sparse, focus only on what you can verify from the price data
 8. Don't cite vague "on-chain metrics" as bullish/bearish unless you can explain the direct price mechanism
 
+VERIFIED TWEETS SECTION:
+- The "RAW VERIFIED TWEETS" section contains REAL tweets with verified URLs and engagement data
+- PREFER these URLs as sources over Grok's X/Twitter intelligence section (Grok URLs may be hallucinated)
+- Use engagement metrics to gauge how much market attention a narrative is getting
+- If a Grok claim is NOT supported by any raw tweet, be MORE skeptical of it
+- If a raw tweet contradicts a Grok claim, trust the raw tweet
+
 QUALITY GUIDANCE - BAD vs GOOD examples:
 
 BAD: "BTC dropped to $93k (-2.2%)"
@@ -234,6 +271,7 @@ Lead with the ANALYTICAL INSIGHT (the "so what"), then support with data. ACCURA
 LIVE PRICE DATA (verified):
 ${priceContext}
 ${intelContext}
+${tweetContext}
 
 Write 4-6 ANALYTICAL bullet points about the crypto market. Each should provide MARKET INTELLIGENCE, not just news.
 

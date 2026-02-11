@@ -23,7 +23,7 @@ Crypto market intelligence app combining real-time prices and AI analysis.
 - **Framework**: Next.js 16 + React 19 + TypeScript
 - **Styling**: Tailwind CSS 4
 - **AI**: Claude API (analysis, reports, follow-up), Grok (X/Twitter intelligence)
-- **Data**: CoinGecko API (prices)
+- **Data**: CoinGecko API (prices), twitterapi.io (verified tweet data)
 - **Deploy**: Vercel
 
 ## Key Files
@@ -32,7 +32,8 @@ Crypto market intelligence app combining real-time prices and AI analysis.
 - `lib/claude.ts` - Report generation
 - `lib/market-summary.ts` - Market summary generation (Claude-powered)
 - `lib/coingecko.ts` - Price fetching
-- `lib/grok.ts` - X/Twitter intelligence
+- `lib/grok.ts` - X/Twitter intelligence (AI interpretation)
+- `lib/twitter-api.ts` - Raw verified tweets from twitterapi.io
 - `lib/rateLimit.ts` - Per-IP rate limiting (10 req/min)
 - `lib/dailyBudget.ts` - Global daily API budget cap
 - `components/WhatsUpDisplay.tsx` - Market overview with interactive follow-up chat
@@ -80,9 +81,10 @@ taskkill /F /IM node.exe
 ## Architecture
 1. User requests via web UI
 2. Prices fetched from CoinGecko
-3. Market intelligence from Grok (X/Twitter)
-4. Claude generates analysis
-5. Results cached and displayed
+3. Market intelligence from Grok (X/Twitter AI interpretation)
+4. Raw verified tweets from twitterapi.io (ground truth)
+5. Claude generates analysis (cross-references Grok against real tweets)
+6. Results cached and displayed
 
 ## Style Guide
 - Functional components with TypeScript
@@ -112,4 +114,5 @@ Required in `.env.local`:
 - `XAI_API_KEY` (Grok)
 
 Optional:
+- `TWITTER_API_KEY` (twitterapi.io) — Enhances source verification with raw tweets. App works without it.
 - `DAILY_API_BUDGET` — Max API-costing requests per day (default: 200). Resets at midnight UTC. In-memory counter.

@@ -23,34 +23,36 @@ It's not just a price tracker. It's a *reasoning engine* that connects the dots 
 Here's where it gets interesting. This project uses **three different AI systems**, each doing what it does best:
 
 ```
-┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│    CoinGecko     │     │       Grok       │     │      Claude      │
-│   (Price Data)   │     │ (Twitter Intel)  │     │   (Analysis)     │
-└────────┬─────────┘     └────────┬─────────┘     └────────┬─────────┘
-         │                        │                        │
-         │   Raw prices           │   Market narratives    │   Synthesis
-         └────────────────────────┼────────────────────────┘
-                                  │
-                         ┌────────▼────────┐
-                         │   Next.js API   │
-                         │    Routes       │
-                         └────────┬────────┘
-                                  │
-                    ┌─────────────┼─────────────┐
-                    │                           │
-              ┌─────▼─────┐               ┌─────▼─────┐
-              │    Web    │               │   Cache   │
-              │    UI     │               │  (24hr)   │
-              └───────────┘               └───────────┘
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│  CoinGecko   │  │     Grok     │  │ twitterapi   │  │    Claude    │
+│ (Price Data) │  │ (AI Interp.) │  │ (Raw Tweets) │  │  (Analysis)  │
+└──────┬───────┘  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘
+       │                 │                 │                 │
+       │  Raw prices     │  Narratives     │  Ground truth   │  Synthesis
+       └─────────────────┼─────────────────┼─────────────────┘
+                         │                 │
+                    ┌────▼─────────────────▼────┐
+                    │       Next.js API         │
+                    │         Routes            │
+                    └────────────┬──────────────┘
+                                 │
+                   ┌─────────────┼─────────────┐
+                   │                           │
+             ┌─────▼─────┐               ┌─────▼─────┐
+             │    Web    │               │   Cache   │
+             │    UI     │               │  (24hr)   │
+             └───────────┘               └───────────┘
 ```
 
-### Why Three AIs?
+### Why Three AIs + Raw Data?
 
 **CoinGecko** isn't AI—it's a data API. But it's the foundation. You can't analyze the market without knowing where prices actually are.
 
 **Grok** has a superpower: it can search X/Twitter in real-time. No other AI can do this. When Bitcoin dumps 5%, Grok knows whether it's because of a Fed announcement, a whale wallet moving coins, or just weekend liquidity. It's our "ears on the ground."
 
-**Claude** is the brain. It takes cold numbers from CoinGecko and hot takes from Grok, then produces measured analysis. Claude's job is to be *skeptical*—to separate signal from noise and explain the "why" behind price movements.
+**twitterapi.io** is the fact-checker. It provides raw, real tweets with verified URLs and engagement data. Grok interprets the narrative; twitterapi.io proves it with actual evidence. This solves Grok's tendency to hallucinate source URLs.
+
+**Claude** is the brain. It takes cold numbers from CoinGecko, hot takes from Grok, and raw evidence from twitterapi.io, then produces measured analysis. Claude's job is to be *skeptical*—to cross-reference claims against real tweets and explain the "why" behind price movements.
 
 ---
 
@@ -76,7 +78,8 @@ crypto-report-generator/
 │   └── ...                           # Supporting cast
 ├── lib/
 │   ├── claude.ts                     # Claude integration
-│   ├── grok.ts                       # Grok integration
+│   ├── grok.ts                       # Grok integration (AI interpretation)
+│   ├── twitter-api.ts                # twitterapi.io (raw verified tweets)
 │   ├── coingecko.ts                  # Price fetching
 │   └── cache.ts                      # 24-hour caching
 └── samples/                          # Reference reports for style
@@ -436,6 +439,59 @@ The budget only counts actual API calls, not cache hits. The whatsup endpoint ch
 ## SEO Meta Tags: Social Link Previews
 
 Sharing `cryptowhatsup.cc` on X/Discord/Slack showed a blank preview — no title, no description, just a bare URL. We added Open Graph and Twitter Card meta tags via Next.js Metadata API in `layout.tsx`. Text-only for now (no og:image), but even title + description dramatically improves click-through when shared socially.
+
+---
+
+## Verified Tweet Intelligence: Giving Claude Ground Truth
+
+### The Problem: Grok Hallucinated URLs
+
+Grok is great at interpreting Crypto Twitter narratives, but it has a weakness: it fabricates source URLs. It'll confidently provide `https://x.com/lookonchain/status/1234567890` — a URL that doesn't exist. This means our "sourced claims" sometimes linked to dead ends.
+
+We couldn't just drop Grok — its AI interpretation of overall sentiment and thematic analysis is genuinely useful. But we needed a way to verify its claims against reality.
+
+### The Solution: twitterapi.io as Ground Truth
+
+We added a new data source: **twitterapi.io**, which returns raw, real tweets with actual engagement metrics and real URLs. The pipeline became:
+
+```
+CoinGecko (prices) + Grok (AI interpretation) + twitterapi.io (real tweets)
+                              ↓
+                    Claude (synthesis + cross-referencing)
+```
+
+Three parallel search queries fetch ~90 tweets total:
+1. **Regulatory/macro catalysts** — ETF, SEC, Fed mentions with 50+ likes
+2. **Price action discussion** — rally, dump, breakout talk with 100+ likes
+3. **Credible accounts** — the same analysts Grok's prompt references (lookonchain, EmberCN, whale_alert, etc.)
+
+Tweets are deduplicated, filtered (min 30 chars, within 48h), scored by engagement + follower tier, and the top 15 are sent to Claude as a `RAW VERIFIED TWEETS` section.
+
+### The Scoring Formula
+
+```
+score = log(likes+1)*2 + log(RTs+1)*1.5 + log(views+1)*0.5 + follower_tier_bonus
+```
+
+Follower tier bonuses: 500K+ = 3, 100K+ = 2, 50K+ = 1. This naturally surfaces high-signal tweets from credible accounts.
+
+### The Prompt Engineering
+
+Claude's system prompt now includes instructions to:
+- **Prefer** real tweet URLs over Grok-provided URLs
+- Be **more skeptical** of Grok claims not supported by any real tweet
+- **Trust raw tweets** when they contradict Grok
+- Use engagement metrics to gauge narrative strength
+
+### Cost & Performance
+
+- **Cost**: $0.014 per call (3 searches), ~$1.30/day worst case at 200 requests/day
+- **Latency**: 1-3s, well under Grok's 5-15s — zero impact on total response time
+- **Graceful degradation**: No API key? Returns empty. Timeout? Returns empty. Individual query fails? `Promise.allSettled` keeps the others.
+
+### The Lesson
+
+When working with AI-interpreted data, always try to provide the AI analyst with raw source material to cross-reference against. Grok tells Claude *what's happening*; twitterapi.io shows Claude *the actual evidence*. Together they're much stronger than either alone.
 
 ---
 
