@@ -1,4 +1,4 @@
-import { WhatsUpData } from "./openai";
+import { WhatsUpData } from "./market-summary";
 import { promises as fs } from "fs";
 import path from "path";
 

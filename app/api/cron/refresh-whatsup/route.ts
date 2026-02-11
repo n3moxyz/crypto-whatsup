@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateWhatsUp } from "@/lib/openai";
+import { generateWhatsUp } from "@/lib/market-summary";
 import { setCachedWhatsUp } from "@/lib/cache";
 
 export async function GET(request: NextRequest) {

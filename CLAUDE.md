@@ -22,7 +22,7 @@ Crypto market intelligence app combining real-time prices and AI analysis.
 ## Tech Stack
 - **Framework**: Next.js 16 + React 19 + TypeScript
 - **Styling**: Tailwind CSS 4
-- **AI**: Claude API (reports), OpenAI/Grok (market summaries)
+- **AI**: Claude API (analysis, reports, follow-up), Grok (X/Twitter intelligence)
 - **Data**: CoinGecko API (prices)
 - **Deploy**: Vercel
 
@@ -30,7 +30,7 @@ Crypto market intelligence app combining real-time prices and AI analysis.
 - `app/page.tsx` - Main UI
 - `app/api/` - API routes (generate, prices, whatsup, whatsup/followup, cron)
 - `lib/claude.ts` - Report generation
-- `lib/openai.ts` - Market summary generation
+- `lib/market-summary.ts` - Market summary generation (Claude-powered)
 - `lib/coingecko.ts` - Price fetching
 - `lib/grok.ts` - X/Twitter intelligence
 - `lib/rateLimit.ts` - Per-IP rate limiting (10 req/min)
@@ -48,7 +48,6 @@ cp .env.local.example .env.local
 
 # 3. Fill in your API keys in .env.local:
 #    - ANTHROPIC_API_KEY (Claude)
-#    - OPENAI_API_KEY
 #    - XAI_API_KEY (Grok)
 
 # 4. Start dev server
@@ -82,7 +81,7 @@ taskkill /F /IM node.exe
 1. User requests via web UI
 2. Prices fetched from CoinGecko
 3. Market intelligence from Grok (X/Twitter)
-4. Claude/OpenAI generates analysis
+4. Claude generates analysis
 5. Results cached and displayed
 
 ## Style Guide
@@ -110,7 +109,6 @@ taskkill /F /IM node.exe
 ## Environment Variables
 Required in `.env.local`:
 - `ANTHROPIC_API_KEY`
-- `OPENAI_API_KEY`
 - `XAI_API_KEY` (Grok)
 
 Optional:

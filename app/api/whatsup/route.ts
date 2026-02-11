@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateWhatsUp } from "@/lib/openai";
+import { generateWhatsUp } from "@/lib/market-summary";
 import { getCachedWhatsUp, setCachedWhatsUp, getCacheAge } from "@/lib/cache";
 import { checkRateLimit } from "@/lib/rateLimit";
 import { checkDailyBudget, incrementDailyBudget } from "@/lib/dailyBudget";
