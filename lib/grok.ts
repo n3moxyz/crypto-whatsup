@@ -36,14 +36,14 @@ export async function fetchCryptoIntelFromGrok(): Promise<GrokCryptoIntel> {
     };
   }
 
-  const currentDate = now.toLocaleDateString('en-US', {
+  const currentDate = now.toLocaleDateString('en-GB', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
     timeZone: 'UTC'
   });
-  const currentTime = now.toLocaleTimeString('en-US', {
+  const currentTime = now.toLocaleTimeString('en-GB', {
     hour: '2-digit',
     minute: '2-digit',
     timeZone: 'UTC'

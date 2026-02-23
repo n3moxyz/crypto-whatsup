@@ -49,7 +49,7 @@ export async function generateReport(
   const summary = getMarketSummary(coins);
 
   const today = new Date();
-  const dateStr = today.toLocaleDateString("en-US", {
+  const dateStr = today.toLocaleDateString("en-GB", {
     day: "numeric",
     month: "short",
     year: "numeric",
