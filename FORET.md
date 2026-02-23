@@ -1,4 +1,4 @@
-# FOR[ET].md - Crypto Report Generator
+# FOR[ET].md - Crypto What's Up
 
 *A behind-the-scenes look at building a market intelligence app that actually thinks*
 
@@ -61,7 +61,7 @@ Here's where it gets interesting. This project uses **three different AI systems
 ### Directory Structure (The Map)
 
 ```
-crypto-report-generator/
+crypto-whatsup/
 ├── app/
 │   ├── api/                          # All the backend magic
 │   │   ├── whatsup/route.ts          # Main market summary endpoint

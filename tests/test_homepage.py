@@ -1,5 +1,5 @@
 """
-Playwright tests for Crypto Report Generator homepage.
+Playwright tests for Crypto What's Up homepage.
 Tests core UI elements and basic interactions.
 
 Run with: python scripts/with_server.py --server "npm run dev" --port 3000 -- python tests/test_homepage.py
