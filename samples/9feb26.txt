@@ -1,0 +1,37 @@
+*Markets update (9 Feb 2026)* #liquid #macro
+
+[See 5 Feb note for reference]
+
+*1) Where we left off*
+- The Feb 5 update confirmed bear market conditions after FOMC hawkishness and US-Iran geopolitical escalation.
+- BTC had broken below $75k support targeting $69k, ETH was heading to $1.8k, and SOL eyeing $78.
+- Stance was defensive - largely stabled up to preserve capital in a genuine downtrend.
+
+*2) Current state of the market*
+- BTC @ $69k after hitting the exact target level predicted in the last update - this is pre-Trump Oct '24 support being tested.
+- ETH @ $2k continuing its relentless slide, now firmly below pre-BMNR territory.
+- SOL @ $85 showing marginal outperformance versus ETH but still declining steadily with FTX unlock pressure ongoing + Multicoin figurehead leaving crypto.
+
+*The technical damage is severe:*
+- ETHBTC has completely collapsed through all prior cycle support levels and is approaching the 0.025 zone from pre-BMNR era.
+- All three majors posting consistent daily losses with no attempt at dip buying from participants.
+- But BTC holding the $69k level so far without a complete breakdown could signal some support (as long as no new lows below $60k for now..)
+
+*3) Macro background*
+- Jan CPI data due 12 Feb will be critical for Fed policy expectations after their hawkish stance -> higher than expected inflation would reinforce the Fed's restrictive bias and pressure crypto further.
+- 14 Feb PPI data could also provide additional confirmation on inflation persistence.
+- Geopolitical tensions with Iran remain stagnant with no signs of de-escalation.
+
+*Additional input kindly from @Joseph_SEL !*
+
+1. *U.S. Market: Labor Softening Ignites Rally* - The U.S. market successfully shifted to a "Risk-On" mode as cooling labor data—highlighted by Non-Farm Payrolls falling to 112k (vs. 150k expected) and the unemployment rate rising to 4.3%—fueled Fed rate cut expectations. This shift neutralized the uncertainty surrounding Kevin Warsh's nomination, driving the Dow Jones to a new All-Time High and sparking a major tech rally. While the rebound is strong, the market remains cautious about the long-term sustainability of this trend.
+
+2. *Japan: Political Stability Drives Market Surge* - Japan's equity markets surged following the LDP's landslide victory, securing a two-thirds supermajority in the lower house. While the Yen initially weakened on expectations of continued Abenomics-style easing, it stabilized quickly as political uncertainty evaporated. Moving forward, the market is expected to remain somewhat mixed as investors await specific fiscal policy updates from the new cabinet.
+
+3. *Crypto: Bitcoin Rebounds to Critical Technical Junction* - Bitcoin staged a dramatic recovery from the $60,000 level to reclaim the $70,000 range, bolstered by the broader tech rally and a technical rebound from an oversold RSI (below 20). BTC is hovering around the $70,300–$70,400 inflection point at the time of writing, a historical resistance zone from 2021 and 2024. If it clears this hurdle, the next key resistance lies in the $74,000–$77,000 range, which served as a major floor earlier in 2025.
+
+*4) Outlook and conclusion*
+- Bear market looks to be confirmed with this lack of bids: sustained downtrend with no signs of V-reversal.
+- BTC holding critical $69k support is the key level to watch; a break below opens the door to much lower levels.
+- Most mean-reversion traders that bought the huge capitulation on Friday have sold the 12~20% move on BTC, ETH, SOL - explains the current stall in prices.
+- *Back to continuing preserving capital in stables.*
