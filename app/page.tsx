@@ -10,7 +10,6 @@ import RefreshPricesButton from "@/components/RefreshPricesButton";
 import ThemeToggle from "@/components/ThemeToggle";
 import CoinSelector from "@/components/CoinSelector";
 import EthBtcChart from "@/components/EthBtcChart";
-import FeaturePreview from "@/components/FeaturePreview";
 import Link from "next/link";
 
 interface DisplayItem {
@@ -42,7 +41,7 @@ function renderSparkline(data: number[], isPositive: boolean) {
     })
     .join(" ");
 
-  const color = isPositive ? "var(--success)" : "var(--danger)";
+  const color = isPositive ? "var(--sparkline-positive)" : "var(--sparkline-negative)";
 
   return (
     <svg
@@ -56,7 +55,7 @@ function renderSparkline(data: number[], isPositive: boolean) {
         points={points}
         fill="none"
         stroke={color}
-        strokeWidth="1.5"
+        strokeWidth="1.2"
         strokeLinejoin="round"
         strokeLinecap="round"
       />
@@ -492,11 +491,80 @@ export default function Home() {
           </div>
         )}
 
+        {/* Hero CTA Section */}
+        <section className="mb-6">
+          <div className="card-cta p-6">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                </svg>
+                <h2 className="font-bold text-primary" style={{ fontSize: "var(--text-xl)" }}>
+                  Get Your Market Briefing
+                </h2>
+              </div>
+              {isAdmin && (
+                <div className="hidden sm:block" style={{ opacity: 0.5 }}>
+                  <ReportButton onClick={generateReport} isLoading={isLoading} onAuthenticated={() => setIsReportAuthenticated(true)} />
+                </div>
+              )}
+            </div>
+            <p className="text-secondary mb-4" style={{ fontSize: "var(--text-sm)", lineHeight: 1.6 }}>
+              AI-powered 24-48h market intelligence. Scans X/Twitter, analyzes price action across 300+ coins, and delivers a concise briefing with interactive follow-up.
+            </p>
+            <div className="flex justify-center sm:justify-start [&>button]:w-full sm:[&>button]:w-auto sm:[&>button]:min-w-[200px]">
+              <WhatsUpButton onClick={fetchWhatsUp} isLoading={isWhatsUpLoading} />
+            </div>
+            <p className="text-muted mt-3" style={{ fontSize: "var(--text-xs)" }}>
+              Takes ~45 seconds | Sources: X/Twitter, CoinGecko, AI analysis
+            </p>
+
+            {/* Inline feature cards — shown only before first briefing */}
+            {!hasWhatsUp && !isWhatsUpLoading && (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5 pt-5" style={{ borderTop: "1px solid var(--border-color)" }}>
+                <div className="data-cell">
+                  <div className="flex items-center gap-2 mb-2">
+                    <svg className="w-4 h-4 text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                    </svg>
+                    <span className="font-semibold text-primary" style={{ fontSize: "var(--text-sm)" }}>Market Bullets</span>
+                  </div>
+                  <p className="text-secondary" style={{ fontSize: "var(--text-xs)", lineHeight: 1.5 }}>
+                    Key events from the last 24-48h with expandable AI analysis
+                  </p>
+                </div>
+                <div className="data-cell">
+                  <div className="flex items-center gap-2 mb-2">
+                    <svg className="w-4 h-4 text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    <span className="font-semibold text-primary" style={{ fontSize: "var(--text-sm)" }}>Follow-Up Chat</span>
+                  </div>
+                  <p className="text-secondary" style={{ fontSize: "var(--text-xs)", lineHeight: 1.5 }}>
+                    Ask questions about any point to dig deeper into the data
+                  </p>
+                </div>
+                <div className="data-cell">
+                  <div className="flex items-center gap-2 mb-2">
+                    <svg className="w-4 h-4 text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                    <span className="font-semibold text-primary" style={{ fontSize: "var(--text-sm)" }}>Top Movers</span>
+                  </div>
+                  <p className="text-secondary" style={{ fontSize: "var(--text-xs)", lineHeight: 1.5 }}>
+                    Biggest gainers and losers across the top 50-300 coins
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+
         {/* Prices Section */}
         <section className="mb-6">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <h2 className="font-bold text-primary" style={{ fontSize: "var(--text-base)" }}>
+              <h2 className="font-bold text-primary" style={{ fontSize: "var(--text-lg)" }}>
                 Current Prices
               </h2>
             </div>
@@ -533,7 +601,7 @@ export default function Home() {
                       {item.image && (
                         <img src={item.image} alt={item.name} className="w-4 h-4 rounded-full" width={16} height={16} loading="lazy" />
                       )}
-                      <span className="text-muted" style={{ fontSize: "var(--text-xs)" }}>
+                      <span className="text-muted font-medium" style={{ fontSize: "var(--text-sm)" }}>
                         {item.symbol}
                       </span>
                     </div>
@@ -593,29 +661,28 @@ export default function Home() {
               <div className="mt-3 pt-3" style={{ borderTop: "1px solid var(--border-color)" }}>
                 <button
                   onClick={() => setIsEthBtcCollapsed(!isEthBtcCollapsed)}
-                  className="flex items-center gap-2 cursor-pointer"
+                  className="w-full flex items-center justify-between cursor-pointer py-1"
                   aria-expanded={!isEthBtcCollapsed}
                   aria-label={isEthBtcCollapsed ? "Expand ETH/BTC ratio" : "Collapse ETH/BTC ratio"}
                 >
                   <span className="font-semibold text-primary" style={{ fontSize: "var(--text-sm)" }}>
                     ETH/BTC Ratio
                   </span>
-                  <span className="btn-ghost flex items-center gap-1" style={{ fontSize: "var(--text-xs)" }}>
-                    {isEthBtcCollapsed ? (
-                      <>
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                        Show
-                      </>
-                    ) : (
-                      <>
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                        </svg>
-                        Collapse
-                      </>
+                  <span className="flex items-center gap-2">
+                    {isEthBtcCollapsed && (
+                      <span className="font-mono text-muted" style={{ fontSize: "var(--text-sm)" }}>
+                        {ethBtcItem.current_price}
+                      </span>
                     )}
+                    <svg
+                      className={`w-3.5 h-3.5 text-muted chevron ${!isEthBtcCollapsed ? "chevron-open" : ""}`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
                   </span>
                 </button>
                 {!isEthBtcCollapsed && (
@@ -633,29 +700,37 @@ export default function Home() {
               <div className="mt-3 pt-3" style={{ borderTop: "1px solid var(--border-color)" }}>
                 <button
                   onClick={() => setIsTopMoversCollapsed(!isTopMoversCollapsed)}
-                  className="flex items-center gap-2 cursor-pointer"
+                  className="w-full flex items-center justify-between cursor-pointer py-1"
                   aria-expanded={!isTopMoversCollapsed}
                   aria-label={isTopMoversCollapsed ? "Expand top movers" : "Collapse top movers"}
                 >
                   <span className="font-semibold text-primary" style={{ fontSize: "var(--text-sm)" }}>
                     Top Movers
                   </span>
-                  <span className="btn-ghost flex items-center gap-1" style={{ fontSize: "var(--text-xs)" }}>
-                    {isTopMoversCollapsed ? (
-                      <>
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                        Show
-                      </>
-                    ) : (
-                      <>
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                        </svg>
-                        Collapse
-                      </>
+                  <span className="flex items-center gap-2">
+                    {isTopMoversCollapsed && topMovers.top100 && (
+                      <span className="flex items-center gap-2" style={{ fontSize: "var(--text-xs)" }}>
+                        {topMovers.top100.gainers[0] && (
+                          <span style={{ color: "var(--success)" }}>
+                            {topMovers.top100.gainers[0].symbol} {topMovers.top100.gainers[0].change}
+                          </span>
+                        )}
+                        {topMovers.top100.losers[0] && (
+                          <span style={{ color: "var(--danger)" }}>
+                            {topMovers.top100.losers[0].symbol} {topMovers.top100.losers[0].change}
+                          </span>
+                        )}
+                      </span>
                     )}
+                    <svg
+                      className={`w-3.5 h-3.5 text-muted chevron ${!isTopMoversCollapsed ? "chevron-open" : ""}`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
                   </span>
                 </button>
                 {!isTopMoversCollapsed && (
@@ -668,44 +743,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Hero CTA Section */}
-        <section className="mb-6">
-          <div className="card p-6">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                </svg>
-                <h2 className="font-bold text-primary" style={{ fontSize: "var(--text-base)" }}>
-                  Get Your Market Briefing
-                </h2>
-              </div>
-              {isAdmin && (
-                <div className="hidden sm:block" style={{ opacity: 0.5 }}>
-                  <ReportButton onClick={generateReport} isLoading={isLoading} onAuthenticated={() => setIsReportAuthenticated(true)} />
-                </div>
-              )}
-            </div>
-            <p className="text-secondary mb-4" style={{ fontSize: "var(--text-sm)", lineHeight: 1.6 }}>
-              AI-powered 24-48h market intelligence. Scans X/Twitter, analyzes price action across 300+ coins, and delivers a concise briefing with interactive follow-up.
-            </p>
-            <div className="flex justify-center sm:justify-start [&>button]:w-full sm:[&>button]:w-auto sm:[&>button]:min-w-[200px]">
-              <WhatsUpButton onClick={fetchWhatsUp} isLoading={isWhatsUpLoading} />
-            </div>
-            <p className="text-muted mt-3" style={{ fontSize: "var(--text-xs)" }}>
-              Takes ~45 seconds | Sources: X/Twitter, CoinGecko, AI analysis
-            </p>
-          </div>
-        </section>
-
-        {/* Feature Preview - shown only before first What's Up */}
-        {!hasWhatsUp && !isWhatsUpLoading && <FeaturePreview />}
-
         {/* Market Summary Section (What's Up) - Collapsible */}
         {(hasWhatsUp || isWhatsUpLoading) && (
           <section className="mb-6">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-bold text-primary" style={{ fontSize: "var(--text-base)" }}>
+              <h2 className="font-bold text-primary" style={{ fontSize: "var(--text-lg)" }}>
                 Market Summary
               </h2>
               {hasWhatsUp && !isWhatsUpLoading && (
@@ -765,7 +807,7 @@ export default function Home() {
         {isAdmin && (hasReport || isLoading) && (
           <section className="mb-6">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-bold text-primary" style={{ fontSize: "var(--text-base)" }}>
+              <h2 className="font-bold text-primary" style={{ fontSize: "var(--text-lg)" }}>
                 Weekly Update
               </h2>
               {hasReport && !isLoading && (
