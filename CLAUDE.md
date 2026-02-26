@@ -104,9 +104,15 @@ taskkill /F /IM node.exe
 - **Text formatting**: Crypto prices are highlighted in purple when preceded by ticker symbols (e.g., "BTC $89k")
 
 ### Price Cards
-- **7-day sparklines**: Inline SVG polyline charts showing 7-day price trend (green=up, red=down)
-- **Auto-refresh**: 60-second interval refreshes prices only (not AI summary). Countdown shown in refresh button
+- **7-day sparklines**: Inline SVG polyline charts showing 7-day price trend (muted green/gray via `--sparkline-positive`/`--sparkline-negative` vars)
+- **Auto-refresh**: 60-second interval refreshes prices only (not AI summary). Countdown shown as separated muted text beside refresh button, with circular SVG progress ring around icon
 - **Sparkline data**: Enabled only on `fetchSpecificCoins()` (display coins), kept OFF for bulk fetches
+- **Collapsed previews**: ETH/BTC shows ratio value inline when collapsed; Top Movers shows #1 gainer/loser from top100 inline. Both use rotating chevron animation
+
+### CTA Section
+- **Accent-gradient card**: Uses `.card-cta` class (gradient from `--accent-light` to `--bg-card` with accent border)
+- **Positioned above prices** for visual hierarchy — first thing users see
+- **Inline feature cards**: 3 cards (Market Bullets, Follow-Up Chat, Top Movers) shown inside CTA before first briefing, replacing the old standalone `FeaturePreview` component
 
 ## Environment Variables
 Required in `.env.local`:

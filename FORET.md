@@ -74,7 +74,7 @@ crypto-whatsup/
 │   ├── WhatsUpDisplay.tsx            # Market summary with follow-up chat
 │   ├── EthBtcChart.tsx               # ETH/BTC ratio chart with level legend
 │   ├── TopMovers.tsx                 # Top gainers/losers with tier toggle
-│   ├── FeaturePreview.tsx            # Landing page preview (pre-interaction)
+│   ├── FeaturePreview.tsx            # Dead code — content inlined into page.tsx CTA card
 │   └── ...                           # Supporting cast
 ├── lib/
 │   ├── claude.ts                     # Claude integration
@@ -229,19 +229,30 @@ if (!grokResponse.themes || grokResponse.themes.length === 0) {
 
 When we first built the app, visitors landed on a page with prices, a mysterious "Actions" heading, and a lot of empty space. Not great for first-time users who have no idea what the app does.
 
-### The Redesign: Three Layers
+### The Redesign: CTA-First Layout
 
 We replaced the generic layout with a purpose-driven flow:
 
-**1. Hero CTA Card** — Replaces the old "Actions" section. Clear heading ("Get Your Market Briefing"), a two-line description of what the app actually does, and the "What's Up?" button front and center. No mystery, no hunting.
+**1. Hero CTA Card (above prices)** — The first thing users see. Uses an accent-gradient background (`.card-cta` class) to stand out from normal cards. Clear heading at `--text-xl` ("Get Your Market Briefing"), a two-line description, and the "What's Up?" button front and center. Three inline feature cards (Market Bullets, Follow-Up Chat, Top Movers) are shown inside the CTA before the first briefing, then hidden once real data loads. This replaced the old standalone `FeaturePreview` component and its mock preview with gradient overlay — the inline cards provide enough context without the visual noise.
 
-**2. Feature Preview** — A grid of three cards (Market Bullets, Follow-Up Chat, Top Movers) explaining what you'll get, plus a faded mock preview of sample output with a gradient fade. This fills the empty void and sets expectations. It disappears once you click "What's Up?" and real data loads.
+**2. Consolidated Prices Section** — The ETH/BTC chart and Top Movers are collapsible sub-sections nested inside Current Prices. Both use full-width clickable buttons with rotating chevrons and **inline data previews when collapsed**: ETH/BTC shows the current ratio value, Top Movers shows the #1 gainer (green) and #1 loser (red) from top100. This gives users actionable info at a glance without expanding.
 
-**3. Consolidated Prices Section** — The ETH/BTC chart and Top Movers used to be separate sections scattered down the page. Now they're collapsible sub-sections nested inside Current Prices, keeping everything organized under one roof. Both are collapsed by default with "Show/Collapse" toggles.
+### Visual Hierarchy Pass (Feb 2026)
+
+A focused UX pass improved readability and reduced visual anxiety:
+
+- **Typography hierarchy**: Section headers bumped from `--text-base` to `--text-lg`, CTA header to `--text-xl`, token symbols from `--text-xs` to `--text-sm` with `font-medium`
+- **Softer sparklines**: Changed from bold `--success`/`--danger` to muted `--sparkline-positive`/`--sparkline-negative` vars (light: `#6ec89b`/`#9ca3af`, dark: `#4a9e6e`/`#6e7681`), stroke width reduced from 1.5 to 1.2. The old bold red sparklines created visual anxiety — muted tones convey the same trend info without screaming "danger"
+- **Dark mode contrast bump**: `--bg-card` from `#161b22` to `#1a2029`, `--border-color` from `#30363d` to `#3a414b` — slightly lighter to improve card separation
+- **Refresh button restyle**: Countdown separated as standalone muted text beside the button (instead of crammed inline). Circular SVG progress ring around the refresh icon depletes over 60s. Button text bumped to `--text-sm`
+
+**The lesson:** Small visual changes compound. Individually, muting a sparkline color or adding 2px to a font size is trivial. Together, they create a calmer, more readable interface that keeps users focused on the data rather than fighting the UI.
 
 ### The ETH/BTC Level Legend
 
-Instead of showing a single label like "Cycle lows territory," we now show all five levels stacked vertically. The active level (based on the live ratio) is highlighted with full opacity and a colored dot (green for bullish levels, red for bearish). The other levels are dimmed to 35% opacity. You can always see where you sit in the full scale at a glance.
+Instead of showing a single label like "Cycle lows territory," we show all five levels stacked vertically. The active level (based on the live ratio) is highlighted with full opacity and a colored dot (green for bullish levels, red for bearish). The other levels are dimmed to 35% opacity. You can always see where you sit in the full scale at a glance.
+
+When collapsed, the ratio value (e.g., `0.02814`) shows inline next to the label — so even without expanding, you see the current ETH/BTC ratio.
 
 ### Admin Mode: Hidden in Plain Sight
 
