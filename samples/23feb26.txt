@@ -1,0 +1,34 @@
+*Markets update (23 Feb 2026)* #liquid #macro
+
+[See 10 Feb note for reference]
+
+*1) Where we left off*
+- BTC hit the predicted $69k target with bear market conditions intact.
+- ETH was continuing its slide below $2k into pre-BMNR territory while SOL held marginal outperformance at $85.
+- Stance remained defensive with capital preserved in stables during the confirmed downtrend.
+
+*2) Current state of the market*
+- BTC @ $66k after failing to hold the critical $69k support level - now testing the next major zone around pre-Trump Oct '24 lows.
+- ETH @ $1.9k accelerating lower as the ETHBTC ratio collapse continues with no institutional buying interest.
+- SOL @ $80 finally reaching the target level flagged weeks ago, with FTX unlock pressure and ecosystem outflows weighing on price.
+
+*The breakdown is now complete:*
+- ETHBTC @ 0.0289 continues to fall towards the pre-BMNR zone (Q2 2025), marking new year lows.
+- All three majors showing no signs of dip buying despite oversold conditions.
+- Volume remains absent - meaning limited participation from buyers and continued sellers.
+
+*3) Macro background*
+- Prev FOMC minutes to be released midweek (25-26 Feb) could provide clarity on the pace of future rate hikes after January's hawkish stance.
+- 5 Mar PCE data will be watched closely as the Fed's preferred inflation gauge ahead of the March FOMC meeting.
+- Any signs of persistent inflation would reinforce the Fed's restrictive bias and pressure risk assets further.
+
+*Additional input kindly from @Joseph_SEL !*
+
+- Financial markets have remained broadly mixed since the last meeting. U.S. macro data has painted a picture of growth coming in below expectations while inflation shows signs of re-acceleration, bringing stagflation concerns back to the fore. Adding to this, despite a Supreme Court ruling against the measures, the Trump administration leveraged separate legal authority to push through a further increase in the global tariff rate to 15%, with policy uncertainty acting as a risk premium and keeping the dollar on a weakening trend.
+- Perhaps the most notable development has been the situation surrounding Blue Owl Capital, a major private credit manager. Blue Owl is an alternative asset manager with approximately $235 billion in AUM, with direct lending as its core business and a key player in the non-bank lending market that has expanded rapidly in the wake of tighter banking regulation. During the week of February 16-20, a surge in redemption requests prompted the firm to implement redemption gates, sending its stock down nearly 15% on the week. Shares partially recovered after Saba Capital and Cox Enterprises announced tender offers to improve liquidity. Nonetheless, some market observers have drawn parallels to the August 2007 BNP Paribas episode — when the French bank's suspension of three subprime funds is widely regarded as the opening act of the global financial crisis — raising questions about whether this could be an early signal of systemic risk emanating from the private credit market.
+- In crypto, Bitcoin has declined approximately 6-7% from the ~$70,000 level at the time of our last meeting to $65,400 at the time of writing, driven primarily by a broader risk-off shift across risk assets amid tariff uncertainty and re-accelerating inflation, with altcoins underperforming on a relative basis. On the regulatory front, the CLARITY Act has been cited as having an 80% chance of passing Congress by April, while the SEC has also been moving toward easing restrictions on brokers' stablecoin holdings, pointing to a gradual improvement in the U.S. regulatory environment. On the technical side, the $63,700-$63,800 range is being watched as a near-term downside inflection point for BTC.
+
+*4) Outlook and conclusion*
+- The bear market thesis holds confirmed with all major support levels broken.
+- BTC needs to hold $60k to prevent a deeper capitulation toward $50k levels.
+- Continue preserving capital in stables - this is not the environment for aggressive positioning.
