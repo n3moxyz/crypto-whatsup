@@ -555,10 +555,14 @@ The `/samples` directory contains reference reports. When Claude generates a wee
 
 ```
 samples/
+├── 23feb26.txt   ← latest
+├── 9feb26.txt
+├── 5feb26.txt
+├── 2feb26.txt
+├── 20jan26.txt
 ├── 15jan26.txt
-├── 08jan26.txt
-├── 01jan26.txt
-└── ...
+├── 5jan26.txt
+└── ...  (back to 1sep25.txt)
 ```
 
 Naming format: `DDmonYY.txt` (e.g., 15jan26 = January 15, 2026)
