@@ -209,6 +209,8 @@ if (!grokResponse.themes || grokResponse.themes.length === 0) {
 
 **The lesson:** AI hallucination is a feature, not a bug—until you ship it to users. Always validate AI outputs before using them.
 
+**Update — The Broken Source Links:** Even after adding twitterapi.io as ground truth, Grok-hallucinated URLs were still slipping through as clickable `(Source)` links in the UI. Claude would dutifully pass them along, and users would click through to 404 pages. The fix: a regex validator in `lib/market-summary.ts` that checks every `sourceUrl` matches the pattern `https://x.com/{username}/status/{15+ digit ID}`. Anything that doesn't match gets stripped — the link simply doesn't render. Real tweet URLs from twitterapi.io always pass since they're constructed from actual tweet data.
+
 ---
 
 ### Bug #4: The twitterapi.io Field Name Mismatch
@@ -483,16 +485,16 @@ CoinGecko (prices) + Grok (AI interpretation) + twitterapi.io (real tweets)
                     Claude (synthesis + cross-referencing)
 ```
 
-Four parallel search queries pull exclusively from **71 trusted accounts** — the same credible source list in Grok's prompt (`lib/grok.ts`). No keyword-based queries, no random accounts, no spam:
+Four parallel search queries pull exclusively from **67 trusted accounts** — the same credible source list in Grok's prompt (`lib/grok.ts`). No keyword-based queries, no random accounts, no spam:
 
 | Query | Accounts | Focus |
 |-------|----------|-------|
 | 1 | NEWS + DATA (18) | lookonchain, whale_alert, DeItaone, CoinDesk, glassnode, etc. |
-| 2 | ANALYSTS + TRADERS (15) | CryptoHayes, HsakaTrades, milesdeutscher, etc. |
+| 2 | ANALYSTS + TRADERS (13) | CryptoHayes, HsakaTrades, dgt10011, DonAlt, etc. |
 | 3 | TRADERS + MACRO (17) | Pentosh1, MacroAlf, RaoulGMI, LynAldenContact, etc. |
-| 4 | FOUNDERS + CT (21) | VitalikButerin, cobie, brian_armstrong, etc. |
+| 4 | FOUNDERS + CT (20) | VitalikButerin, cobie, brian_armstrong, etc. |
 
-We initially tried keyword-based queries (e.g. "crypto ETF SEC" with `min_faves:50`) but these surfaced spam and scam accounts. Switching to account-based queries ensures every tweet comes from a vetted source. The account list is maintained in one place (`lib/twitter-api.ts`) mirroring Grok's prompt.
+We initially tried keyword-based queries (e.g. "crypto ETF SEC" with `min_faves:50`) but these surfaced spam and scam accounts. Switching to account-based queries ensures every tweet comes from a vetted source. The account list is maintained in one place (`lib/twitter-api.ts`) mirroring Grok's prompt. The list is curated over time — inactive or low-signal accounts get pruned, handles get updated when accounts rebrand.
 
 Tweets are deduplicated, filtered (min 30 chars, within 48h), scored by engagement + follower tier, and the top 15 are sent to Claude as a `RAW VERIFIED TWEETS` section.
 
