@@ -46,14 +46,14 @@ const TRUSTED_ACCOUNT_GROUPS = [
   ],
   // ANALYSTS + some TRADERS — market interpretation
   [
-    "52kskew", "CryptoCapo_", "ColdBloodShill", "HsakaTrades", "SmartContracter",
-    "Route2FI", "milesdeutscher", "thedefiedge", "Delphi_Digital", "MessariCrypto",
-    "CryptoHayes", "inversebrah", "CryptoDonAlt", "lightcrypto", "Rewkang",
+    "52kskew", "ColdBloodShill", "HsakaTrades", "thedefiedge", "Delphi_Digital",
+    "MessariCrypto",
+    "dgt10011", "CryptoHayes", "inversebrah", "DonAlt", "lightcrypto", "Rewkang",
   ],
   // Remaining TRADERS + MACRO — positioning and macro context
   [
     "CL207", "GCRClassic", "Pentosh1", "TheCryptoDog", "AltcoinPsycho",
-    "blknoiz06", "MacroAlf", "fejau_inc", "Zhu_Su", "KyleSamani",
+    "blknoiz06", "MacroAlf", "fejau_inc", "zhusu", "KyleSamani",
     "nic__carter", "cburniske", "TuurDemeester", "RaoulGMI", "LynAldenContact",
     "punk6529", "Travis_Kling",
   ],
@@ -61,7 +61,7 @@ const TRUSTED_ACCOUNT_GROUPS = [
   [
     "VitalikButerin", "brian_armstrong", "cz_binance", "cdixon", "jessepollak",
     "balajis", "aantonop", "rleshner", "ryanberckmans", "MikeIppolito_",
-    "cobie", "CryptoCobain", "DegenSpartan", "Darrenlautf", "IamNomad",
+    "cobie", "DegenSpartan", "Darrenlautf", "IamNomad",
     "BarrySilbert", "APompliano", "scottmelker", "AriDavidPaul", "Zagabond",
     "ledgerstatus",
   ],

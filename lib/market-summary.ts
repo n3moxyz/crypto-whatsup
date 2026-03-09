@@ -390,6 +390,14 @@ BAD main points (vague or no mechanism):
   const rawBullets = Array.isArray(parsed) ? parsed : (parsed.bullets || []);
   const conclusion = typeof parsed === 'object' && !Array.isArray(parsed) ? (parsed.conclusion || "") : "";
 
+  // Validate X/Twitter URLs — only allow real-looking tweet links
+  // Grok often hallucinates status IDs, so we require a numeric ID of 15+ digits
+  const VALID_TWEET_URL = /^https:\/\/x\.com\/\w{1,30}\/status\/\d{15,}$/;
+  function validateSourceUrl(url?: string): string | undefined {
+    if (!url) return undefined;
+    return VALID_TWEET_URL.test(url) ? url : undefined;
+  }
+
   interface RawBullet {
     main: string;
     sourceUrl?: string;
@@ -403,14 +411,14 @@ BAD main points (vague or no mechanism):
     // Normalize subPoints if they exist
     const result: BulletPoint = { main: b.main };
     if (b.sourceUrl) {
-      result.sourceUrl = b.sourceUrl;
+      result.sourceUrl = validateSourceUrl(b.sourceUrl);
     }
     if (b.subPoints && b.subPoints.length > 0) {
       result.subPoints = b.subPoints.map((sp: string | SubPoint) => {
         if (typeof sp === 'string') {
           return { text: sp };
         }
-        return sp;
+        return { ...sp, sourceUrl: validateSourceUrl(sp.sourceUrl) };
       });
     }
     return result;

@@ -88,11 +88,11 @@ Only cite posts from CREDIBLE accounts. Credible means:
 - Prioritize sourcing from these credible accounts:
   NEWS: @DeItaone @tier10k @WatcherGuru @DocumentingBTC @unusual_whales @Cointelegraph @TheBlock__ @CoinDesk @WuBlockchain @whale_alert @DLNews
   DATA: @lookonchain @EmberCN @cryptoquant_com @glassnode @intotheblock @tokenterminal @DuneAnalytics
-  ANALYSTS: @52kskew @CryptoCapo_ @ColdBloodShill @HsakaTrades @SmartContracter @Route2FI @milesdeutscher @thedefiedge @Delphi_Digital @MessariCrypto
-  TRADERS: @CryptoHayes @inversebrah @CryptoDonAlt @lightcrypto @Rewkang @CL207 @GCRClassic @Pentosh1 @TheCryptoDog @AltcoinPsycho @blknoiz06
-  MACRO: @MacroAlf @fejau_inc @Zhu_Su @KyleSamani @nic__carter @cburniske @TuurDemeester @RaoulGMI @LynAldenContact @punk6529 @Travis_Kling
+  ANALYSTS: @52kskew @ColdBloodShill @HsakaTrades @thedefiedge @Delphi_Digital @MessariCrypto @dgt10011
+  TRADERS: @CryptoHayes @inversebrah @DonAlt @lightcrypto @Rewkang @CL207 @GCRClassic @Pentosh1 @TheCryptoDog @AltcoinPsycho @blknoiz06
+  MACRO: @MacroAlf @fejau_inc @zhusu @KyleSamani @nic__carter @cburniske @TuurDemeester @RaoulGMI @LynAldenContact @punk6529 @Travis_Kling
   FOUNDERS: @VitalikButerin @brian_armstrong @cz_binance @cdixon @jessepollak @balajis @aantonop @rleshner @ryanberckmans @MikeIppolito_
-  CT: @cobie @CryptoCobain @DegenSpartan @Darrenlautf @IamNomad @BarrySilbert @APompliano @scottmelker @AriDavidPaul @Zagabond @ledgerstatus
+  CT: @cobie @DegenSpartan @Darrenlautf @IamNomad @BarrySilbert @APompliano @scottmelker @AriDavidPaul @Zagabond @ledgerstatus
 
 NEVER cite:
 - Random low-follower accounts
